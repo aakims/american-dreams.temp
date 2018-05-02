@@ -42,6 +42,7 @@ var quarterKey = {
 };
 
 var thisData; 
+var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 
 var actualDownload = function(urlStr) {
         $.ajax(urlStr).then(function(res) {
@@ -55,9 +56,7 @@ var defineData = function(subject, quarter, result) { // subject: employer vs wo
     var sprefx = subjectKey[subject],
     qprefx = quarterKey[quarter],
     rprefx = resultKey[result],
-    uprefx = sprefx + 
-
-
+    uprefx = sprefx + qprefix + rprefix; 
 
     // prefix format: emp_15Q2_CERT_WORKER
 
