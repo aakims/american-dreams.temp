@@ -1,0 +1,189 @@
+    <!DOCTYPE html>
+<html lang="en">
+<meta charset='utf-8' />
+<head>
+    <title>H1B</title>
+    <!--- data imports-->
+
+
+    <!-- libraries --> 
+    <!-- Essentials -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
+
+    <!-- mapboxGL -->
+
+    <!-- D3 -->
+
+    <!-- style sheets --> 
+
+
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        button {}
+        #map { position:absolute; top:100; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+<div class="buttons">
+    <button class="datatype button" id=empButton onClick="displayMap(emp)">Location of Employers</button>
+    <button class="datatype button" id=workButton onClick="displayMap(work)">Worksite</button>
+</div>
+<div id='map'></div>
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+        <h2>Significant earthquakes in 2015</h2>
+        <label id='quarter'></label>
+        <input id='slider' type='range' min='0' max='12' step='1' value='0' />
+    </div>
+    <div class='map-overlay-inner'>
+        <div id='legend' class='legend'>
+            <div class='bar'></div>
+            <div>Magnitude (m)</div>
+        </div>
+    </div>
+</div>
+
+<script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v9',
+    center: [31.4606, 20.7927],
+    zoom: 0.5
+});
+
+// var months = [
+//     'January',
+//     'February',
+//     'March',
+//     'April',
+//     'May',
+//     'June',
+//     'July',
+//     'August',
+//     'September',
+//     'October',
+//     'November',
+//     'December'
+// ];
+
+//list of mappable elements: 'AVGSAL', 'APP', 'WORKER', 'PCTINSTATE'
+//col format: [quarterkey_resultkey_col]
+
+
+// function filterBy(month) {
+
+//     var filters = ['==', 'month', month];
+//     map.setFilter('earthquake-circles', filters);
+//     map.setFilter('earthquake-labels', filters);
+
+//     // Set the label to the month
+//     document.getElementById('month').textContent = months[month];
+// }
+
+function filterBy(quarter) {
+
+    var qprefix = empSt_quarterkey[quarter];
+
+
+
+    var filters = ['==', 'month', month];
+    map.setFilter('earthquake-circles', filters);
+    map.setFilter('earthquake-labels', filters);
+
+    // Set the label to the month
+    document.getElementById('month').textContent = months[month];
+}
+
+map.on('load', function() {
+
+    // Data courtesy of http://earthquake.usgs.gov/
+    // Query for significant earthquakes in 2015 URL request looked like this:
+    // http://earthquake.usgs.gov/fdsnws/event/1/query
+    //    ?format=geojson
+    //    &starttime=2015-01-01
+    //    &endtime=2015-12-31
+    //    &minmagnitude=6'
+    //
+    // Here we're using d3 to help us make the ajax request but you can use
+    // Any request method (library or otherwise) you wish.
+    d3.json('../data/newDat/geojson/byCounty_worksite.geojson', function(err, data) {
+        if (err) throw err;
+
+        // Create a month property value based on time
+        // used to filter against.
+        data.features = data.features.map(function(d) {
+            d.properties.month = new Date(d.properties.time).getMonth();
+            return d;
+        });
+
+        // map.addSource('earthquakes', {
+        //     'type': 'geojson',
+        //     'data': data
+        // });
+
+        map.addSource('statelev', {
+        	'type': 'geojson',
+            'data': data
+        });
+
+        map.addLayer({
+            'id': 'earthquake-circles',
+            'type': 'circle',
+            'source': 'earthquakes',
+            'paint': {
+                'circle-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'mag'],
+                    6, '#FCA107',
+                    8, '#7F3121'
+                ],
+                'circle-opacity': 0.75,
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'mag'],
+                    6, 20,
+                    8, 40
+                ]
+            }
+        });
+
+        map.addLayer({
+            'id': 'earthquake-labels',
+            'type': 'symbol',
+            'source': 'earthquakes',
+            'layout': {
+                'text-field': ['concat', ['to-string', ['get', 'mag']], 'm'],
+                'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+                'text-size': 12
+            },
+            'paint': {
+                'text-color': 'rgba(0,0,0,0.5)'
+            }
+        });
+
+        // Set filter to first month of the year
+        // 0 = January
+        filterBy(0);
+
+        document.getElementById('slider').addEventListener('input', function(e) {
+            var quarter = parseInt(e.target.value, 10);
+            filterBy(month);
+
+        // document.getElementById('slider').addEventListener('input', function(e) {
+        //     var month = parseInt(e.target.value, 10);
+        //     filterBy(month);
+        });
+    });
+});
+</script>
+
+</body>
+</html>
