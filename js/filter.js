@@ -1,14 +1,14 @@
 
 
 var resultKey = {
-    'CERTIFIED': 'CERT',
-    'DENIED': 'DEN',
-    'WITHDRAWN': 'WD'
+    'CERT': 'CERTIFIED',
+    'DEN' : 'DENIED',
+     'WD' : 'WITHDRAWN'
 };
 
 var subjectKey = {
-    'EMPLOYER': 'employer',
-    'WORKSITE': 'worksite'
+    'employer': 'emp',
+    'worksite': 'work'
 };
 
 var quarterList = [

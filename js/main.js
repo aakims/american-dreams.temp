@@ -115,15 +115,37 @@ map.on('load', function() {
     console.log(labelLayer); 
 
     map.on('click', labelLayer, function (e) {
+
+        // var labelStr; 
+        var result_worker = subjectKey[subject] + "_18Q1_" + result + "_WORKER";
+        console.log(result_worker);
+        
+        var labelStr = '<h3>State of ' + e.features[0].properties.NAME + '</h3><p>There are ' + e.features[0].properties[result_worker] + ' H1B workers</p>'
+        console.log(labelStr);
+
+    
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
-            .setHTML(e.features[0].properties.NAME)
+            //.setHTML(e.features[0].properties.NAME)
+            .setHTML(labelStr)
             .addTo(map);
     });
 
 
 
 });
+
+var labelMaker = function(labelLayer) {
+
+    var labelStr; 
+    var result_worker = subjectKey[subject] + "_18Q1_" + result + "_WORKER";
+    console.log(result_worker);
+    if (labelLayer == 'state-level-result') {
+        labelStr = '<h3>State of ' + e.features[0].properties.NAME + '</h3><p>There are' + e.features[0].properties[result_worker] + '</p>'
+    };
+    return labelStr; 
+
+};
 
 var displayMap = function() {
 
