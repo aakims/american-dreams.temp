@@ -1,3 +1,5 @@
+
+
 var resultKey = {
     'CERTIFIED': 'CERT',
     'DENIED': 'DEN',
@@ -48,33 +50,55 @@ var quarter, result = 'CERT',
     subject = 'worksite';
 var wantedRes, wantedSubj;
 
-var wantCertified = $('#certified').click(function() {
-        result = 'CERT';
-        printThis();
-        //console.log('certified');
-    }),
-    wantDenied = $('#denied').click(function() {
-        result = 'DEN';
-        printThis();
-        //console.log('denied');
-    }),
-    wantWithdrawn = $('#withdrawn').click(function() {
-        result = 'WD';
-        printThis();
-        //console.log('withdrawn');
-    });
+// var wantCertified = $('#certified').click(function() {
+//         result = 'CERT';
+//         //initizeWithState(); 
+//         //printThis();
+//         //console.log('certified');
+//     }),
+//     wantDenied = $('#denied').click(function() {
+//         result = 'DEN';
+//         //initizeWithState(); 
+//         //printThis();
+//         //console.log('denied');
+//     }),
+//     wantWithdrawn = $('#withdrawn').click(function() {
+//         result = 'WD';
+//         initizeWithState(); 
+//         //printThis();
+//         //console.log('withdrawn');
+//     });
 
-var wantWorksite = $('#worksite').click(function() {
-        subject = 'worksite';
-        printThis();
-        //console.log('worksite');
-    }),
-    wantEmployer = $('#employer').click(function() {
-        subject = 'employer';
-        printThis();
-        //console.log('employer');
-    });
+// var wantWorksite = $('#worksite').click(function() {
+//         subject = 'worksite';
+//         initizeWithState(); 
+//         //printThis();
+//         //console.log('worksite');
+//     }),
+//     wantEmployer = $('#employer').click(function() {
+//         subject = 'employer';
+//         initizeWithState(); 
+//         //printThis();
+//         //console.log('employer');
+//     });
 
+var initizeWithState = function() { //when first page load 
+    getData(subject);
+    timeForStateData(); 
+    //displayMap();
+    console.log("Map with State");
+
+    timeForCountyData(); 
+    console.log("County Followed");
+
+}
+
+var resultChange = function () { //when only result changed (no need to re download data)
+    giveStateData = JSON.parse(JSON.stringify(fedStateData));
+    thisStateData = defineData(giveStateData);
+    giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
+    thisCountyData = defineData(giveCountyData); 
+}
 
 var printThis = function() {
     console.log(result);
@@ -154,23 +178,33 @@ var defineData = function(fedData) { // subject: employer vs worksite
     return thisData;
 };
 var fedData, datafirst;
-
-var timeForData = function() {
+var fedStateData, fedCountyData; 
+var giveStateData, giveCountyData; 
+var thisStateData, thisCountyData;
+var timeForStateData = function() {
     actualStateDownload.done(function(data) {
         console.log(data);
         datafirst = data;
-        fedData = JSON.parse(data);
-        console.log(fedData.features[1]);
-        thisStateData = defineData(fedData);
-    });
-
-    actualCountyDownload.done(function(data) {
-        console.log(data);
-        datafirst = data;
-        fedData = JSON.parse(data);
-        console.log(fedData.features[1]);
-        thisCountyData = defineData(fedData);
+        fedStateData = JSON.parse(data);
+        giveStateData = JSON.parse(JSON.stringify(fedStateData));
+        console.log(fedStateData.features[1]);
+        thisStateData = defineData(giveStateData);
     });
     console.log('new fetch!');
 
 };
+
+
+var timeForCountyData = function() {
+    actualCountyDownload.done(function(data) {
+        console.log(data);
+        datafirst = data;
+        fedCountyData = JSON.parse(data);
+        giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
+        console.log(fedCountyData.features[1]);
+        thisCountyData = defineData(giveCountyData);
+    });
+    console.log('county is done!')
+}; 
+
+initizeWithState();

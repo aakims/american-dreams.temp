@@ -8,21 +8,127 @@ var map = new mapboxgl.Map({
     zoom: 3
 });
 
-map.on('load', function () {
-    // Add a layer showing the state polygons.
+map.addControl(new mapboxgl.NavigationControl());
+
+
+map.on('load', function() {
+
+    map.addSource("state-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisStateData
+            }
+        });
+
     map.addLayer({
-        'id': 'states-layer',
-        'type': 'fill',
-        'source': {
-            'type': 'geojson',
-            'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson'
-        },
-        'paint': {
-            'fill-color': 'rgba(200, 100, 240, 0.4)',
-            'fill-outline-color': 'rgba(200, 100, 240, 1)'
-        }
+            "id": "state-level-result",
+            "type": "fill",
+            "source": "state-level",
+            "paint": {
+                'fill-color': 'rgba(155, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
+
+    $('#denied').click(function() {
+        result = 'DEN';
+        resultChange();  
+    }); 
+
+    $('#certified').click(function() {
+        result = 'CERT';
+        resultChange(); 
     });
+
+    $('#withdrawn').click(function() {
+        result = 'WD';
+        resultChange(); 
+        //printThis();
+        //console.log('withdrawn');
     });
+
+    $('#worksite').click(function() {
+        subject = 'worksite';
+        initizeWithState(); 
+        //printThis();
+        //console.log('withdrawn');
+    });
+
+    $('#employer').click(function() {
+        subject = 'employer';
+        initizeWithState(); 
+    });
+
+});
+
+var displayMap = function() {
+
+    var map = new mapboxgl.Map({
+    container: 'map',
+    style: mapStyle,
+    center: [-96, 37.8],
+    zoom: 3
+    });
+
+    console.log(map);
+    map.on('load', function() {
+        // Add a layer showing the state polygons.
+        // map.addLayer({
+        //     'id': 'states-layer',
+        //     'type': 'fill',
+        //     'source': {
+        //         'type': 'geojson',
+        //         'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson'
+        //     },
+        //     'paint': {
+        //         'fill-color': 'rgba(200, 100, 240, 0.4)',
+        //         'fill-outline-color': 'rgba(200, 100, 240, 1)'
+        //     }
+        // });
+
+
+        map.addSource("state-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisStateData
+            }
+        });
+
+
+        map.addLayer({
+            "id": "state-level-result",
+            "type": "fill",
+            "source": "state-level",
+            "paint": {
+                'fill-color': 'rgba(155, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
+
+    });
+};
 
 //displayMap(); 
 // var months = [
@@ -67,64 +173,63 @@ map.on('load', function () {
 // };
 //var displayMap = function() {
 
-/*
-    map = new mapboxgl.Map({
-        container: 'map',
-        style: mapStyle,
-        zoom: 3,
-        center: [-96, 37.8] //[-75.1652, 39.9526]
-    });
 
-    map.addControl(new mapboxgl.NavigationControl());
+// map = new mapboxgl.Map({
+//     container: 'map',
+//     style: mapStyle,
+//     zoom: 3,
+//     center: [-96, 37.8] //[-75.1652, 39.9526]
+// });
 
-    map.on("load", function() {
-        map.addSource("state-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisStateData
-            }
-        });
 
-        map.addSource("county-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisCountyData
-            }
-        });
+//     map.on("load", function() {
+//         map.addSource("state-level", {
+//             "type": "geojson",
+//             "data": {
+//                 "type": "FeatureCollection",
+//                 "features": thisStateData
+//             }
+//         });
 
-        map.addLayer({
-            "id": "state-level-result",
-            "type": "fill",
-            "source": "sensing-samples",
-            "paint": {
-                'fill-color': 'rgba(200, 100, 240, 0.4)'
-            }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
-        });
+//         map.addSource("county-level", {
+//             "type": "geojson",
+//             "data": {
+//                 "type": "FeatureCollection",
+//                 "features": thisCountyData
+//             }
+//         });
 
-        // map.addLayer({
-        //     "id": "path-hover",
-        //     "type": "circle",
-        //     "source": "sensing-samples",
-        //     "paint": {
-        //         "circle-radius": markerSize + 3,
-        //         "circle-color": "#54505E",
-        //         "circle-opacity": 1
-        //     },
-        //     "filter": ["==", "unixt", ""]
-        // });
-    });
-//};
-*/
+//         map.addLayer({
+//             "id": "state-level-result",
+//             "type": "fill",
+//             "source": "sensing-samples",
+//             "paint": {
+//                 'fill-color': 'rgba(200, 100, 240, 0.4)'
+//             }
+//             // {
+//             //     "circle-radius": markerSize,
+//             //     "circle-color": "#db8a83",
+//             //     // [
+//             //     // 'match', 
+//             //     // ['get', 'properties.olive'],
+//             //     // 6 , "#ffff", 
+//             //     // "#db8a83"
+//             //     // ],
+//             //     "circle-opacity": 1
+//             // }
+//         });
+
+//         // map.addLayer({
+//         //     "id": "path-hover",
+//         //     "type": "circle",
+//         //     "source": "sensing-samples",
+//         //     "paint": {
+//         //         "circle-radius": markerSize + 3,
+//         //         "circle-color": "#54505E",
+//         //         "circle-opacity": 1
+//         //     },
+//         //     "filter": ["==", "unixt", ""]
+//         // });
+//     });
+// //};
+// };
