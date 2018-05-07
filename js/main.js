@@ -8,6 +8,8 @@ var map = new mapboxgl.Map({
     zoom: 3
 });
 
+var zoomThreshold = 4; 
+
 map.addControl(new mapboxgl.NavigationControl());
 
 
@@ -19,14 +21,44 @@ map.on('load', function() {
                 "type": "FeatureCollection",
                 "features": thisStateData
             }
+        }); 
+        
+    map.addSource("county-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisCountyData
+            }
         });
 
     map.addLayer({
             "id": "state-level-result",
             "type": "fill",
             "source": "state-level",
+            "maxzoom": zoomThreshold,
             "paint": {
                 'fill-color': 'rgba(155, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
+
+    map.addLayer({
+            "id": "county-level-result",
+            "type": "fill",
+            "source": "county-level",
+            "minzoom": zoomThreshold,
+            "paint": {
+                'fill-color': 'rgba(155, 155, 155, 0.4)'
             }
             // {
             //     "circle-radius": markerSize,
@@ -69,6 +101,27 @@ map.on('load', function() {
         subject = 'employer';
         initizeWithState(); 
     });
+
+    var whichLev = function () {
+        var zoomLev = map.getZoom(); 
+        console.log(zoomLev); 
+        if (zoomLev < 4) {
+            return 'state-level-result';
+        } else {return 'county-level-result';}
+    };
+
+    var labelLayer = whichLev(); 
+
+    console.log(labelLayer); 
+
+    map.on('click', labelLayer, function (e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(e.features[0].properties.NAME)
+            .addTo(map);
+    });
+
+
 
 });
 
