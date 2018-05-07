@@ -5,8 +5,8 @@ var resultKey = {
 };
 
 var subjectKey = {
-    'By Employer': 'employer',
-    'By Worksite': 'worksite'
+    'EMPLOYER': 'employer',
+    'WORKSITE': 'worksite'
 };
 
 var quarterList = [
@@ -44,25 +44,60 @@ var quarterKey = {
 var thisData;
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 var selectKeys;
-var quarter, result, subject;
+var quarter, result = 'CERT',
+    subject = 'worksite';
+var wantedRes, wantedSubj;
 
-var wantedRes = $('#result option:selected').text();
-var wantedSubj = $('#subject option:selected').text();
-result = resultKey[wantedRes];
-subject = subjectKey[wantedSubj];
+var wantCertified = $('#certified').click(function() {
+        result = 'CERT';
+        printThis();
+        //console.log('certified');
+    }),
+    wantDenied = $('#denied').click(function() {
+        result = 'DEN';
+        printThis();
+        //console.log('denied');
+    }),
+    wantWithdrawn = $('#withdrawn').click(function() {
+        result = 'WD';
+        printThis();
+        //console.log('withdrawn');
+    });
+
+var wantWorksite = $('#worksite').click(function() {
+        subject = 'worksite';
+        printThis();
+        //console.log('worksite');
+    }),
+    wantEmployer = $('#employer').click(function() {
+        subject = 'employer';
+        printThis();
+        //console.log('employer');
+    });
+
+
+var printThis = function() {
+    console.log(result);
+    console.log(subject);
+    getData(subject);
+    timeForData(); 
+};
+
+//result = resultKey[wantedRes];
+//subject = subjectKey[wantedSubj];
 quarter = '2016 Q1';
 
-var getData = function(subject) { // "employer" vs "worksite" 
+var getData = function(newSubject) { // "employer" vs "worksite" 
 
-    urlCntyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + subject + ".geojson",
-    urlStateStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data/geojson/byState_" + subject + ".geojson";
+    urlCntyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubject + ".geojson";
+    urlStateStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data/geojson/byState_" + newSubject + ".geojson";
 
 };
 
-getData(subject); 
+getData(subject);
 
-var actualDownload = 
-    $.ajax(urlStateStr).then(function(res) {
+var actualDownload =
+    $.ajax(urlStateStr).done(function(res) {
         //console.log(res); 
         //thisData = res;
         return res;
@@ -74,20 +109,20 @@ var allFields = function(fedData) {
     // }))));
     return (_.unique(_.flatten(_.map(fedData.features, function(feature) {
         return _.allKeys(feature.properties)
-    })))
-)};
+    }))))
+};
 
 var defineData = function(fedData) { // subject: employer vs worksite
 
-    var sprefx = subjectKey[subject],
-        //qprefx = quarterKey[quarter],
-        rprefx = resultKey[result];
-        //uprefx = sprefx + qprefx + rprefx;
+    var sprefx = subjectKey[subject];
+    //qprefx = quarterKey[quarter],
+    //rprefx = resultKey[result];
+    //uprefx = sprefx + qprefx + rprefx;
     //console.log("uprefx:", uprefx);
-    console.log(rprefx);
+    console.log(result);
 
     selectKeys = _.chain(allFields(fedData))
-        .filter(function(field) { return field.split("_")[2] === rprefx }) // result 
+        .filter(function(field) { return field.split("_")[2] === result }) // result 
         .value();
 
     console.log("selectKeys: ", selectKeys);
@@ -106,8 +141,16 @@ var defineData = function(fedData) { // subject: employer vs worksite
     console.log(thisData[1]);
     return thisData;
 };
-var fedData;
-           actualDownload.done(function(data) {
-                fedData = JSON.parse(data)
-                defineData(fedData); 
-            })
+var fedData, datafirst;
+
+var timeForData = function() {
+    actualDownload.done(function(data) {
+        console.log(data);
+        datafirst = data;
+        fedData = JSON.parse(data);
+        console.log(fedData.features[1]);
+        defineData(fedData);
+    });
+    console.log('new fetch!');
+
+};

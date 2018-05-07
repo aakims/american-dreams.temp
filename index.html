@@ -12,15 +12,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
 
     <!-- mapboxGL -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
 
     <!-- D3 -->
 
     <!-- style sheets --> 
-
-
-
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+
+
+
+    
     <style>
         body { margin:0; padding:0; }
         button {}
@@ -29,24 +30,20 @@
 </head>
 
 <body>
-<div class="buttons">
-    <button class="datatype button" id=empButton onClick="displayMap(emp)">Location of Employers</button>
-    <button class="datatype button" id=workButton onClick="displayMap(work)">Worksite</button>
+<div class = "filter" id = "subject">
+    <h3>Choose one</h3>
+    <h4 class = 'filter subject button' id = 'worksite'>Worksite</h4>
+    <h4 class = 'filter subject button' id = 'employer'>Employer</h4>
 </div>
-<div>
-<select class="filter dropdown" id = "result">
-    <option>CERTIFIED</option>
-    <option>DENIED</option>
-    <option>WITHDRAWN</option>
-</select>
-
-<select class="filter dropdown" id = "subject">
-    <option>By Worksite</option>
-    <option>By Employer</option>
-</select>
+<div class = "filter" id = "result">
+    <h3>Result</h3>
+    <h4 class = 'filter result button' id = 'certified'>CERTIFIED</h4>
+    <h4 class = 'filter result button' id = 'denied'>DENIED</h4>
+    <h4 class = 'filter result button' id = 'withdrawn'>WITHDRAWN</h4>
 </div>
 
 <div id='map'></div>
+<!--
 <div class='map-overlay top'>
     <div class='map-overlay-inner'>
         <h2>Significant earthquakes in 2015</h2>
@@ -60,9 +57,11 @@
         </div>
     </div>
 </div>
+-->
 
 <!-- <script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script> -->
 <script src="js/filter.js"></script>
+<script src="js/main.js"></script>
 <!-- <script src="js/main.js"></script> -->
 
 </body>

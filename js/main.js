@@ -1,4 +1,3 @@
-<script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
 var map = new mapboxgl.Map({
     container: 'map',
@@ -133,4 +132,3 @@ map.on('load', function() {
         });
     });
 });
-</script>
