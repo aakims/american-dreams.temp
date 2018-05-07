@@ -81,6 +81,9 @@ var printThis = function() {
     console.log(subject);
     getData(subject);
     timeForData(); 
+
+    console.log(thisCountyData[10]);
+    console.log(thisStateData[10]);
 };
 
 //result = resultKey[wantedRes];
@@ -89,15 +92,22 @@ quarter = '2016 Q1';
 
 var getData = function(newSubject) { // "employer" vs "worksite" 
 
-    urlCntyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubject + ".geojson";
+    urlCountyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubject + ".geojson";
     urlStateStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data/geojson/byState_" + newSubject + ".geojson";
 
 };
 
 getData(subject);
 
-var actualDownload =
+var actualStateDownload =
     $.ajax(urlStateStr).done(function(res) {
+        //console.log(res); 
+        //thisData = res;
+        return res;
+    });
+
+var actualCountyDownload =
+    $.ajax(urlCountyStr).done(function(res) {
         //console.log(res); 
         //thisData = res;
         return res;
@@ -121,9 +131,11 @@ var defineData = function(fedData) { // subject: employer vs worksite
     //console.log("uprefx:", uprefx);
     console.log(result);
 
-    selectKeys = _.chain(allFields(fedData))
+    dynamicKeys = _.chain(allFields(fedData))
         .filter(function(field) { return field.split("_")[2] === result }) // result 
         .value();
+
+    selectKeys = _.union(dynamicKeys, ['NAME']);
 
     console.log("selectKeys: ", selectKeys);
 
@@ -144,12 +156,20 @@ var defineData = function(fedData) { // subject: employer vs worksite
 var fedData, datafirst;
 
 var timeForData = function() {
-    actualDownload.done(function(data) {
+    actualStateDownload.done(function(data) {
         console.log(data);
         datafirst = data;
         fedData = JSON.parse(data);
         console.log(fedData.features[1]);
-        defineData(fedData);
+        thisStateData = defineData(fedData);
+    });
+
+    actualCountyDownload.done(function(data) {
+        console.log(data);
+        datafirst = data;
+        fedData = JSON.parse(data);
+        console.log(fedData.features[1]);
+        thisCountyData = defineData(fedData);
     });
     console.log('new fetch!');
 
