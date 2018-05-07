@@ -1,11 +1,30 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
+
+var mapStyle = 'mapbox://styles/aakims/cjfgej20o1t452smsp0rysgsi';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/light-v9',
-    center: [31.4606, 20.7927],
-    zoom: 0.5
+    style: mapStyle,
+    center: [-96, 37.8],
+    zoom: 3
 });
 
+map.on('load', function () {
+    // Add a layer showing the state polygons.
+    map.addLayer({
+        'id': 'states-layer',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson'
+        },
+        'paint': {
+            'fill-color': 'rgba(200, 100, 240, 0.4)',
+            'fill-outline-color': 'rgba(200, 100, 240, 1)'
+        }
+    });
+    });
+
+//displayMap(); 
 // var months = [
 //     'January',
 //     'February',
@@ -35,100 +54,77 @@ var map = new mapboxgl.Map({
 //     document.getElementById('month').textContent = months[month];
 // }
 
-function filterBy(quarter) {
+// function filterBy(quarter) {
 
-    var qprefix = empSt_quarterkey[quarter];
+//     var qprefix = empSt_quarterkey[quarter];
 
+//     var filters = ['==', 'month', month];
+//     map.setFilter('earthquake-circles', filters);
+//     map.setFilter('earthquake-labels', filters);
 
+//     // Set the label to the month
+//     document.getElementById('month').textContent = months[month];
+// };
+//var displayMap = function() {
 
-    var filters = ['==', 'month', month];
-    map.setFilter('earthquake-circles', filters);
-    map.setFilter('earthquake-labels', filters);
-
-    // Set the label to the month
-    document.getElementById('month').textContent = months[month];
-}
-
-map.on('load', function() {
-
-    // Data courtesy of http://earthquake.usgs.gov/
-    // Query for significant earthquakes in 2015 URL request looked like this:
-    // http://earthquake.usgs.gov/fdsnws/event/1/query
-    //    ?format=geojson
-    //    &starttime=2015-01-01
-    //    &endtime=2015-12-31
-    //    &minmagnitude=6'
-    //
-    // Here we're using d3 to help us make the ajax request but you can use
-    // Any request method (library or otherwise) you wish.
-    d3.json('../data/newDat/geojson/byCounty_worksite.geojson', function(err, data) {
-        if (err) throw err;
-
-        // Create a month property value based on time
-        // used to filter against.
-        data.features = data.features.map(function(d) {
-            d.properties.month = new Date(d.properties.time).getMonth();
-            return d;
-        });
-
-        // map.addSource('earthquakes', {
-        //     'type': 'geojson',
-        //     'data': data
-        // });
-
-        map.addSource('statelev', {
-          'type': 'geojson',
-            'data': data
-        });
-
-        map.addLayer({
-            'id': 'earthquake-circles',
-            'type': 'circle',
-            'source': 'earthquakes',
-            'paint': {
-                'circle-color': [
-                    'interpolate',
-                    ['linear'],
-                    ['get', 'mag'],
-                    6, '#FCA107',
-                    8, '#7F3121'
-                ],
-                'circle-opacity': 0.75,
-                'circle-radius': [
-                    'interpolate',
-                    ['linear'],
-                    ['get', 'mag'],
-                    6, 20,
-                    8, 40
-                ]
-            }
-        });
-
-        map.addLayer({
-            'id': 'earthquake-labels',
-            'type': 'symbol',
-            'source': 'earthquakes',
-            'layout': {
-                'text-field': ['concat', ['to-string', ['get', 'mag']], 'm'],
-                'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-                'text-size': 12
-            },
-            'paint': {
-                'text-color': 'rgba(0,0,0,0.5)'
-            }
-        });
-
-        // Set filter to first month of the year
-        // 0 = January
-        filterBy(0);
-
-        document.getElementById('slider').addEventListener('input', function(e) {
-            var quarter = parseInt(e.target.value, 10);
-            filterBy(month);
-
-        // document.getElementById('slider').addEventListener('input', function(e) {
-        //     var month = parseInt(e.target.value, 10);
-        //     filterBy(month);
-        });
+/*
+    map = new mapboxgl.Map({
+        container: 'map',
+        style: mapStyle,
+        zoom: 3,
+        center: [-96, 37.8] //[-75.1652, 39.9526]
     });
-});
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    map.on("load", function() {
+        map.addSource("state-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisStateData
+            }
+        });
+
+        map.addSource("county-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisCountyData
+            }
+        });
+
+        map.addLayer({
+            "id": "state-level-result",
+            "type": "fill",
+            "source": "sensing-samples",
+            "paint": {
+                'fill-color': 'rgba(200, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
+
+        // map.addLayer({
+        //     "id": "path-hover",
+        //     "type": "circle",
+        //     "source": "sensing-samples",
+        //     "paint": {
+        //         "circle-radius": markerSize + 3,
+        //         "circle-color": "#54505E",
+        //         "circle-opacity": 1
+        //     },
+        //     "filter": ["==", "unixt", ""]
+        // });
+    });
+//};
+*/
