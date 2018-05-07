@@ -31,26 +31,26 @@ map.on('load', function() {
             }
         });
 
-    map.addLayer({
-            "id": "state-level-result",
-            "type": "fill",
-            "source": "state-level",
-            "maxzoom": zoomThreshold,
-            "paint": {
-                'fill-color': 'rgba(155, 100, 240, 0.4)'
-            }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
-        });
+    // map.addLayer({
+    //         "id": "state-level-result",
+    //         "type": "fill",
+    //         "source": "state-level",
+    //         "maxzoom": zoomThreshold,
+    //         "paint": {
+    //             'fill-color': 'rgba(155, 100, 240, 0.4)'
+    //         }
+    //         // {
+    //         //     "circle-radius": markerSize,
+    //         //     "circle-color": "#db8a83",
+    //         //     // [
+    //         //     // 'match', 
+    //         //     // ['get', 'properties.olive'],
+    //         //     // 6 , "#ffff", 
+    //         //     // "#db8a83"
+    //         //     // ],
+    //         //     "circle-opacity": 1
+    //         // }
+    //     });
 
     map.addLayer({
             "id": "county-level-result",
@@ -75,17 +75,29 @@ map.on('load', function() {
 
     $('#denied').click(function() {
         result = 'DEN';
-        resultChange();  
+        resultChange(); 
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        updateSource();
+        updateLayer(); 
     }); 
 
     $('#certified').click(function() {
         result = 'CERT';
         resultChange(); 
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        updateSource();
+        updateLayer(); 
     });
 
     $('#withdrawn').click(function() {
         result = 'WD';
         resultChange(); 
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        updateSource();
+        updateLayer(); 
         //printThis();
         //console.log('withdrawn');
     });
@@ -134,6 +146,40 @@ map.on('load', function() {
 
 
 });
+
+var updateSource = function() {
+    return map.addSource("state-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisStateData
+            }
+        }); 
+};
+
+var updateLayer = function() {
+       return map.addLayer({
+            "id": "state-level-result",
+            "type": "fill",
+            "source": "state-level",
+            "maxzoom": zoomThreshold,
+            "paint": {
+                'fill-color': 'rgba(155, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
+
+    };
 
 var labelMaker = function(labelLayer) {
 

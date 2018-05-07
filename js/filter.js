@@ -46,7 +46,7 @@ var quarterKey = {
 var thisData;
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 var selectKeys;
-var quarter, result = 'CERT',
+var quarter, result;// = 'CERT',
     subject = 'worksite';
 var wantedRes, wantedSubj;
 
