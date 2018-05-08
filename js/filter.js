@@ -60,6 +60,7 @@ var quarterKey = {
 };
 
 var thisData;
+var featureKey = 'WORKER';
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 var selectKeys;
 var quarter, result = 'CERT',
@@ -186,15 +187,10 @@ var timeForCountyData = function() {
         //console.log(fedCountyData.features[1]);
         thisCountyData = defineData(giveCountyData);
     }).done(function() {
-        map.removeLayer("state-level-result");
-        map.removeSource("state-level");
-        map.removeLayer("county-level-result");
-        map.removeSource("county-level");
-        updateStateSource();
-        updateStateLayer();
-        updateCountySource();
-        updateCountyLayer();
+        
+        layerTheWorks(); 
     });
+    
     console.log('county is done!')
 };
 initizeWithState();
