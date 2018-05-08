@@ -14,6 +14,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
         <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Oxygen+Mono|Merriweather+Sans" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
+        <script src="js/filter.js"></script>
 </head>
 
 <body>
@@ -24,32 +25,32 @@
         <div class="filterbar">
             <div class="filterbox" id="subj-filter">
                 <h3>Visualize by Which Location?</h3>
-                <div class="fb-tab fb-tab-active">
+                <div class="fb-tab fb-tab-active" id="worksite">
                     <div class="fb-spot">
-                        <span class="fb-text" id="worksite">WORKSITE</span>
+                        <span class="fb-text">WORKSITE</span>
                     </div>
                 </div>
-                <div class="fb-tab">
+                <div class="fb-tab" id="employer">
                     <div class="fb-spot">
-                        <span class="fb-text" id="employer">EMPLOYER</span>
+                        <span class="fb-text">EMPLOYER</span>
                     </div>
                 </div>
             </div>
             <div class="filterbox" id="result-filter">
                 <h3>View by Petition Result</h3>
-                <div class="fb-tab fb-tab-active">
+                <div class="fb-tab fb-tab-active" id="certified">
                     <div class="fb-spot">
-                        <span class="fb-text" id="certified">CERTIFIED</span>
+                        <span class="fb-text">CERTIFIED</span>
                     </div>
                 </div>
-                <div class="fb-tab">
+                <div class="fb-tab" id="denied">
                     <div class="fb-spot">
-                        <span class="fb-text" id="denied">DENIED</span>
+                        <span class="fb-text">DENIED</span>
                     </div>
                 </div>
-                <div class="fb-tab">
+                <div class="fb-tab" id="withdrawn">
                     <div class="fb-spot">
-                        <span class="fb-text" id="withdrawn">WITHDRAWN</span>
+                        <span class="fb-text">WITHDRAWN</span>
                     </div>
                 </div>
             </div>
@@ -83,7 +84,6 @@
     <!-- <script src='//d3js.org/d3.v3.min.js' charset='utf-8'></script> -->
     <!-- mapboxGL -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-    <script src="js/filter.js"></script>
     <script src="js/main.js"></script>
     <script src="js/buttons.js"></script>
     <!-- <script src="js/main.js"></script> -->

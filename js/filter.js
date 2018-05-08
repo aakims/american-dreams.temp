@@ -1,3 +1,4 @@
+
 var resultKey = {
     'CERT': 'CERTIFIED',
     'DEN': 'DENIED',
@@ -45,52 +46,21 @@ var thisData;
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 var selectKeys;
 var quarter, result = 'CERT',
-    subj = 'employer';
+    subj = 'worksite';
 var wantedRes, wantedSubj;
-
-// var wantCertified = $('#certified').click(function() {
-//         result = 'CERT';
-//         //initizeWithState(); 
-//         //printThis();
-//         //console.log('certified');
-//     }),
-//     wantDenied = $('#denied').click(function() {
-//         result = 'DEN';
-//         //initizeWithState(); 
-//         //printThis();
-//         //console.log('denied');
-//     }),
-//     wantWithdrawn = $('#withdrawn').click(function() {
-//         result = 'WD';
-//         initizeWithState(); 
-//         //printThis();
-//         //console.log('withdrawn');
-//     });
-
-// var wantWorksite = $('#worksite').click(function() {
-//         subject = 'worksite';
-//         initizeWithState(); 
-//         //printThis();
-//         //console.log('worksite');
-//     }),
-//     wantEmployer = $('#employer').click(function() {
-//         subject = 'employer';
-//         initizeWithState(); 
-//         //printThis();
-//         //console.log('employer');
-//     });
 
 var initizeWithState = function() { //when first page load 
     console.log(result, subj);
     //getData(subject);
+    timeForCountyData();
+    console.log("County Followed");
+    //console.log(thisCountyData[0]);
     timeForStateData();
     //displayMap();
     console.log("Map with State");
     console.log(thisStateData[0]);
 
-    timeForCountyData();
-    console.log("County Followed");
-    console.log(thisCountyData[0]);
+
 
 
 }
@@ -102,25 +72,6 @@ var resultChange = function() { //when only result changed (no need to re downlo
     thisCountyData = defineData(giveCountyData);
 };
 
-// var subjectChange = function() {
-//     //getData(subject);
-//     initizeWithState();
-// };
-
-// var printThis = function() {
-//     console.log(result);
-//     console.log(subject);
-//     getData(subject);
-//     timeForData(); 
-
-//     console.log(thisCountyData[10]);
-//     console.log(thisStateData[10]);
-// };
-
-//result = resultKey[wantedRes];
-//subject = subjectKey[wantedSubj];
-//quarter = '2016 Q1';
-
 var getData = function(newSubj) { // "employer" vs "worksite" 
 
     urlCountyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubj + ".geojson";
@@ -130,19 +81,19 @@ var getData = function(newSubj) { // "employer" vs "worksite"
 
 getData(subj);
 
-var actualStateDownload =
-    $.ajax(urlStateStr).done(function(res) {
-        //console.log(res); 
-        //thisData = res;
-        return res;
-    });
+// var actualStateDownload =
+//     $.ajax(urlStateStr).done(function(res) {
+//         //console.log(res); 
+//         //thisData = res;
+//         return res;
+//     });
 
-var actualCountyDownload =
-    $.ajax(urlCountyStr).done(function(res) {
-        //console.log(res); 
-        //thisData = res;
-        return res;
-    });
+// var actualCountyDownload =
+//     $.ajax(urlCountyStr).done(function(res) {
+//         //console.log(res); 
+//         //thisData = res;
+//         return res;
+//     });
 
 var allFields = function(fedData) {
     // console.log (_.unique(_.flatten(_.map(fedData.features, function(feature) {
@@ -168,7 +119,7 @@ var defineData = function(fedData) { // subject: employer vs worksite
 
     selectKeys = _.union(dynamicKeys, ['NAME']);
 
-    console.log("selectKeys: ", selectKeys);
+    //console.log("selectKeys: ", selectKeys);
 
     // prefix format: emp_15Q2_CERT_WORKER
 
@@ -198,11 +149,11 @@ var timeForStateData = function() {
         //thisData = res;
         return res;
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         datafirst = data;
         fedStateData = JSON.parse(data);
         giveStateData = JSON.parse(JSON.stringify(fedStateData));
-        console.log(fedStateData.features[1]);
+        //console.log(fedStateData.features[1]);
         thisStateData = defineData(giveStateData);
     });
     console.log('new fetch! from: ', subj, "   ", result, urlStateStr);
@@ -215,14 +166,13 @@ var timeForCountyData = function() {
         //thisData = res;
         return res;
     }).done(function(data) {
-        console.log(data);
+        //console.log(data);
         datafirst = data;
         fedCountyData = JSON.parse(data);
         giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
-        console.log(fedCountyData.features[1]);
+        //console.log(fedCountyData.features[1]);
         thisCountyData = defineData(giveCountyData);
     });
     console.log('county is done!')
 };
-
-//initizeWithState();
+initizeWithState();

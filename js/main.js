@@ -8,7 +8,7 @@ var map = new mapboxgl.Map({
     zoom: 3
 });
 
-var zoomThreshold = 4; 
+var zoomThreshold = 5; 
 
 map.addControl(new mapboxgl.NavigationControl());
 
@@ -78,8 +78,12 @@ map.on('load', function() {
         resultChange(); 
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
-        updateSource();
-        updateLayer(); 
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer(); 
+        updateCountySource();
+        updateCountyLayer(); 
     }); 
 
     $('#certified').click(function() {
@@ -87,8 +91,12 @@ map.on('load', function() {
         resultChange(); 
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
-        updateSource();
-        updateLayer(); 
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer(); 
+        updateCountySource();
+        updateCountyLayer(); 
     });
 
     $('#withdrawn').click(function() {
@@ -96,8 +104,12 @@ map.on('load', function() {
         resultChange(); 
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
-        updateSource();
-        updateLayer(); 
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer();  
         //printThis();
         //console.log('withdrawn');
     });
@@ -109,8 +121,12 @@ map.on('load', function() {
         initizeWithState(); 
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
-        updateSource();
-        updateLayer(); 
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer(); 
+        updateCountySource();
+        updateCountyLayer(); 
         //printThis();
         //console.log('withdrawn');
     });
@@ -123,8 +139,12 @@ map.on('load', function() {
         initizeWithState(); 
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
-        updateSource();
-        updateLayer();
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer(); 
         //initizeWithState(); 
     });
 
@@ -161,7 +181,7 @@ map.on('load', function() {
 
 });
 
-var updateSource = function() {
+var updateStateSource = function() {
     return map.addSource("state-level", {
             "type": "geojson",
             "data": {
@@ -171,7 +191,17 @@ var updateSource = function() {
         }); 
 };
 
-var updateLayer = function() {
+var updateCountySource = function() {
+    return map.addSource("county-level", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": thisCountyData
+            }
+        }); 
+};
+
+var updateStateLayer = function() {
        return map.addLayer({
             "id": "state-level-result",
             "type": "fill",
@@ -180,17 +210,19 @@ var updateLayer = function() {
             "paint": {
                 'fill-color': 'rgba(155, 100, 240, 0.4)'
             }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
+        });
+
+    };
+
+var updateCountyLayer = function() {
+       return map.addLayer({
+            "id": "county-level-result",
+            "type": "fill",
+            "source": "county-level",
+            "minzoom": zoomThreshold,
+            "paint": {
+                'fill-color': 'rgba(155, 155, 155, 0.4)'
+            }
         });
 
     };
