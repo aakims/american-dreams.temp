@@ -11,6 +11,7 @@ body {
     color: #3C8685;
     font-size: 20px;
     text-align: right;
+    opacity: 1;
 }
 
 li::before {content: "•"; color: #3C8685;
@@ -54,16 +55,26 @@ li::before {content: "•"; color: #3C8685;
     height: 80px;
     border-radius: 10px;
     background: #cdc0b6;
-    opacity: 0.5;
+    opacity: 0.75;
 
 
 }
 .labels {
     height: 10px;
     width: 100%;
+    text-align: justify;
     grid-column: 2/3;
     grid-row: 2/3;
     align-self: start;
+}
+
+.m-labels {
+    height: 10px;
+    width: 100%;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    align-self: start;
+    text-align: left;
 }
 
 .legend-title {
@@ -94,6 +105,13 @@ background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #00683
 
 .label {
   width: 15%;
+  display: inline-block;
+  text-align: center;
+    font-family: "IBM Plex Sans Condensed";
+    font-size: 15px;
+}
+.m-label {
+    width: 18%;
   display: inline-block;
   text-align: center;
     font-family: "IBM Plex Sans Condensed";
@@ -151,7 +169,7 @@ background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #00683
 
 .filterbar-background {
     background: #cdc0b6;
-    opacity: 0.5;
+    opacity: 0.7;
     grid-row: 2/4;
     grid-column: 1/2;
     z-index: 9999;
