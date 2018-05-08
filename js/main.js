@@ -8,7 +8,7 @@ var map = new mapboxgl.Map({
     zoom: 3
 });
 
-var zoomThreshold = 5; 
+var zoomThreshold = 5;
 
 map.addControl(new mapboxgl.NavigationControl());
 
@@ -16,92 +16,92 @@ map.addControl(new mapboxgl.NavigationControl());
 map.on('load', function() {
 
     map.addSource("state-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisStateData
-            }
-        }); 
-        
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": thisStateData
+        }
+    });
+
     map.addSource("county-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisCountyData
-            }
-        });
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": thisCountyData
+        }
+    });
+
+    map.addSource("cities", {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": thisCities
+        }
+    });
 
     map.addLayer({
-            "id": "state-level-result",
-            "type": "fill",
-            "source": "state-level",
-            "maxzoom": zoomThreshold,
-            "paint": {
-                'fill-color': 'rgba(155, 100, 240, 0.4)'
-            }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
-        });
+        "id": "state-level-result",
+        "type": "fill",
+        "source": "state-level",
+        "maxzoom": zoomThreshold,
+        "paint": {
+            'fill-color': 'rgba(155, 100, 240, 0.4)'
+        }
+        // {
+        //     "circle-radius": markerSize,
+        //     "circle-color": "#db8a83",
+        //     // [
+        //     // 'match', 
+        //     // ['get', 'properties.olive'],
+        //     // 6 , "#ffff", 
+        //     // "#db8a83"
+        //     // ],
+        //     "circle-opacity": 1
+        // }
+    });
 
     map.addLayer({
-            "id": "county-level-result",
-            "type": "fill",
-            "source": "county-level",
-            "minzoom": zoomThreshold,
-            "paint": {
-                'fill-color': 'rgba(155, 155, 155, 0.4)'
-            }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
-        });
+        "id": "county-level-result",
+        "type": "fill",
+        "source": "county-level",
+        "minzoom": zoomThreshold,
+        "paint": {
+            'fill-color': 'rgba(155, 155, 155, 0.4)'
+        }
+        // {
+        //     "circle-radius": markerSize,
+        //     "circle-color": "#db8a83",
+        //     // [
+        //     // 'match', 
+        //     // ['get', 'properties.olive'],
+        //     // 6 , "#ffff", 
+        //     // "#db8a83"
+        //     // ],
+        //     "circle-opacity": 1
+        // }
+    });
+
+    map.addLayer({
+        "id": "state-major-cities",
+        "type": "circle",
+        "source": "cities",
+        //"filter": ["==", "STATEEMP", true],
+        "paint": {
+                "circle-radius": 3,
+                "circle-color": "#db8a83",
+                // [
+                // 'match', 
+                // ['get', 'properties.olive'],
+                // 6 , "#ffff", 
+                // "#db8a83"
+                // ],
+                "circle-opacity": 1
+    }});
+
 
     $('#denied').click(function() {
         result = 'DEN';
-        resultChange(); 
-        map.removeLayer("state-level-result");
-        map.removeSource("state-level");
-        map.removeLayer("county-level-result");
-        map.removeSource("county-level");
-        updateStateSource();
-        updateStateLayer(); 
-        updateCountySource();
-        updateCountyLayer(); 
-    }); 
-
-    $('#certified').click(function() {
-        result = 'CERT';
-        resultChange(); 
-        map.removeLayer("state-level-result");
-        map.removeSource("state-level");
-        map.removeLayer("county-level-result");
-        map.removeSource("county-level");
-        updateStateSource();
-        updateStateLayer(); 
-        updateCountySource();
-        updateCountyLayer(); 
-    });
-
-    $('#withdrawn').click(function() {
-        result = 'WD';
-        resultChange(); 
+        resultChange();
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
         map.removeLayer("county-level-result");
@@ -109,7 +109,33 @@ map.on('load', function() {
         updateStateSource();
         updateStateLayer();
         updateCountySource();
-        updateCountyLayer();  
+        updateCountyLayer();
+    });
+
+    $('#certified').click(function() {
+        result = 'CERT';
+        resultChange();
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer();
+    });
+
+    $('#withdrawn').click(function() {
+        result = 'WD';
+        resultChange();
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer();
         //printThis();
         //console.log('withdrawn');
     });
@@ -118,25 +144,7 @@ map.on('load', function() {
         subj = 'worksite';
         //subjectChange();
         getData("worksite");
-        initizeWithState(); 
-        map.removeLayer("state-level-result");
-        map.removeSource("state-level");
-        map.removeLayer("county-level-result");
-        map.removeSource("county-level");
-        updateStateSource();
-        updateStateLayer(); 
-        updateCountySource();
-        updateCountyLayer(); 
-        //printThis();
-        //console.log('withdrawn');
-    });
-
-    $('#employer').click(function() {
-        subj = 'employer';
-        getData("employer");
-        initizeWithState(); 
-        //subjectChange(); 
-        initizeWithState(); 
+        initizeWithState();
         map.removeLayer("state-level-result");
         map.removeSource("state-level");
         map.removeLayer("county-level-result");
@@ -144,7 +152,25 @@ map.on('load', function() {
         updateStateSource();
         updateStateLayer();
         updateCountySource();
-        updateCountyLayer(); 
+        updateCountyLayer();
+        //printThis();
+        //console.log('withdrawn');
+    });
+
+    $('#employer').click(function() {
+        subj = 'employer';
+        getData("employer");
+        initizeWithState();
+        //subjectChange(); 
+        initizeWithState();
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer();
         //initizeWithState(); 
     });
 
@@ -160,7 +186,7 @@ map.on('load', function() {
 
     // console.log(labelLayer); 
 
-    map.on('click', 'state-level-result', function (e) {
+    map.on('click', 'state-level-result', function(e) {
 
         //var labelStr; 
         var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
@@ -178,14 +204,14 @@ map.on('load', function() {
 
     });
 
-    map.on('click', 'county-level-result', function (e) {
+    map.on('click', 'county-level-result', function(e) {
 
         //var labelStr; 
         var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
         console.log(result_worker);
-    var labelStr = '<h3>' + e.features[0].properties.NAME + ' County</h3><p>There are ' + e.features[0].properties[result_worker] + ' H1B workers ' + resultKey[result] + '</p>'
+        var labelStr = '<h3>' + e.features[0].properties.NAME + ' County</h3><p>There are ' + e.features[0].properties[result_worker] + ' H1B workers ' + resultKey[result] + '</p>'
 
-            new mapboxgl.Popup()
+        new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             //.setHTML(e.features[0].properties.NAME)
             .setHTML(labelStr)
@@ -193,63 +219,63 @@ map.on('load', function() {
 
 
 
-});
+    });
 });
 
 var updateStateSource = function() {
     return map.addSource("state-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisStateData
-            }
-        }); 
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": thisStateData
+        }
+    });
 };
 
 var updateCountySource = function() {
     return map.addSource("county-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisCountyData
-            }
-        }); 
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": thisCountyData
+        }
+    });
 };
 
 var updateStateLayer = function() {
-       return map.addLayer({
-            "id": "state-level-result",
-            "type": "fill",
-            "source": "state-level",
-            "maxzoom": zoomThreshold,
-            "paint": {
-                'fill-color': 'rgba(155, 100, 240, 0.4)'
-            }
-        });
+    return map.addLayer({
+        "id": "state-level-result",
+        "type": "fill",
+        "source": "state-level",
+        "maxzoom": zoomThreshold,
+        "paint": {
+            'fill-color': 'rgba(155, 100, 240, 0.4)'
+        }
+    });
 
-    };
+};
 
 var updateCountyLayer = function() {
-       return map.addLayer({
-            "id": "county-level-result",
-            "type": "fill",
-            "source": "county-level",
-            "minzoom": zoomThreshold,
-            "paint": {
-                'fill-color': 'rgba(155, 155, 155, 0.4)'
-            }
-        });
+    return map.addLayer({
+        "id": "county-level-result",
+        "type": "fill",
+        "source": "county-level",
+        "minzoom": zoomThreshold,
+        "paint": {
+            'fill-color': 'rgba(155, 155, 155, 0.4)'
+        }
+    });
 
-    };
+};
 
 var labelMaker = function(labelLayer) {
 
-    var labelStr; 
+    var labelStr;
     var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
     console.log(result_worker);
     if (labelLayer == 'state-level-result') {
         labelStr = '<h3>State of ' + e.features[0].properties.NAME + '</h3><p>There are' + e.features[0].properties[result_worker] + '</p>'
     };
-    return labelStr; 
+    return labelStr;
 
 };

@@ -1,3 +1,8 @@
+var thisCities = _.chain(maincities.features)
+.filter(function (feature) {
+    return (feature.properties['STATEEMP'] || feature.properties['STATEWORK'])
+}).value(); 
+console.log(thisCities[0]);
 
 var resultKey = {
     'CERT': 'whose H1B got certified',
@@ -58,11 +63,7 @@ var initizeWithState = function() { //when first page load
     timeForStateData();
     //displayMap();
     console.log("Map with State");
-    console.log(thisStateData[0]);
-
-
-
-
+    //console.log(thisStateData[0]);
 }
 
 var resultChange = function() { //when only result changed (no need to re download data)
@@ -176,3 +177,5 @@ var timeForCountyData = function() {
     console.log('county is done!')
 };
 initizeWithState();
+
+var stateCities, allCities;
