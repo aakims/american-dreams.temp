@@ -7,7 +7,7 @@ body {
     display: grid;
     max-width: 100%;
     grid-gap: 1em;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 2fr 5fr;
     grid-template-rows: 0.1fr 0.1fr 5fr;
     background-color: #fefefe;
     color: #444;
@@ -19,37 +19,48 @@ body {
 }
 
 .title {
-    grid-column: 1/3;
+    grid-column: 1/2;
     grid-row: 1/2;
     font-family: "Oxygen Mono";
     font-size: 10pt;
-    justify-self: center;
+    justify-self: right;
+    text-align: right;
+    padding-right: 25%;
     color: #303542;
     z-index: 5;
     text-shadow: 2px 2.5px #efefef;
 }
 
 .filterbar {
-    grid-column: 1/3;
-    grid-row: 2/3;
+    grid-column: 1/2;
+    grid-row: 2/4;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: .1fr .1fr .1fr;
+    grid-template-rows: 1fr 1fr 1fr 2fr;
+    justify-items: left;
+    justify-self: stretch;
+    padding-left: 5%;
+    align-items: end;
+    max-width: 75%;
+    z-index: 99999;
 }
 
-.filterbox {
-    z-index: 1000;
-    padding: 16px 0;
-  text-align: center;
-  background: rgba(255,255,255,.03);
-  border-radius: .3em;
-}
 
+.filterbar-background {
+    background: #cdc0b6;
+    opacity: 0.5;
+    grid-row: 2/4;
+    grid-column: 1/2;
+    z-index: 9999;
+    max-width: 85%;
+
+}
 
 .fb-tab {
   display: inline-block;
   position: relative;
-  width: 20%;
+  width: 100%;
+  grid-row: 2/3;
+  opacity: 1;
 }
 
 .fb-text {
@@ -61,6 +72,7 @@ body {
   font-size: 1em;
   color: #efefef;
   font-family: "IBM Plex Sans Condensed";
+  opacity: 1;
 }
 
 .fb-spot {
@@ -83,18 +95,59 @@ body {
 }
 
 
-#subj-filter {
+
+#subj-title {
     grid-column: 1/2;
+}
+
+#result-title {
+    grid-column: 1/3;
+}
+
+#key-title {
+    grid-column: 1/2;
+}
+
+#subj-filter {
+    display: grid;
+    justify-content: stretch;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-row: 1/2;
     z-index: 999;
+        justify-self: stretch;
 }
 
 #result-filter{
-    grid-column: 2/3;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-row: 2/3;
     z-index: 999;
+    justify-self: stretch;
+}
+
+#key-filter{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-row: 3/4;
+    z-index: 999;
+        justify-self: stretch;
+}
+
+#key-filter-text {
+    font-size: 1em;
+    max-width: 100%;
+    padding: 0px;
+}
+
+.filter-title {
+    grid-row: 1/2;
 }
 
 .maphere {
-    grid-column: 1/2;
+    grid-column: 1/3;
     grid-row: 1/4;
     max-height: 100%;
     justify-content: center;
@@ -105,4 +158,17 @@ body {
     bottom: 0;
     /*margin-top: 5px;*/
     /*position: relative;*/
+}
+
+#infobox {
+    grid-column: 1/2;
+    grid-row: 3/4;
+    align-self: end;
+    bottom: 100px;
+    width: 200px;
+    height: 200px;
+    background: #ffff;
+    border-radius: 100%;
+    z-index: 99999;
+
 }

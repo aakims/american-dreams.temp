@@ -5,7 +5,7 @@
 <head>
     <title>H1B</title>
     <!--- data imports-->
-    <script src = "data/geojson/majorcities.geojson"></script>
+    <script src="data/geojson/majorcities.geojson"></script>
     <!-- libraries -->
     <!-- Essentials -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -13,20 +13,23 @@
     <!-- D3 -->
     <!-- style sheets -->
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
-        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Oxygen+Mono|Merriweather+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Oxygen+Mono|Merriweather+Sans" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
     <!-- front loads-->
     <script src="js/filter.js"></script>
 </head>
 
 <body>
-    <div class="wrapper" id ="wrapper">
+    <div class="wrapper" id="wrapper">
         <div class="title">
             <h1>american_dreams.temp</h1>
         </div>
+        <div class = "filterbar-background">
+        </div>
         <div class="filterbar">
+<!--             <div class="background" id="filter-bar-bg"></div> -->
             <div class="filterbox" id="subj-filter">
-                <h3>Visualize by Which Location?</h3>
+                <h3 class='filter-title' id="subj-title">Location Base</h3>
                 <div class="fb-tab fb-tab-active" id="worksite">
                     <div class="fb-spot">
                         <span class="fb-text">WORKSITE</span>
@@ -39,7 +42,7 @@
                 </div>
             </div>
             <div class="filterbox" id="result-filter">
-                <h3>View by Petition Result</h3>
+                <h3 class="filter-title" id="result-title">View by Petition Result</h3>
                 <div class="fb-tab fb-tab-active" id="certified">
                     <div class="fb-spot">
                         <span class="fb-text">CERTIFIED</span>
@@ -56,6 +59,19 @@
                     </div>
                 </div>
             </div>
+            <div class="filterbox" id="key-filter">
+                <h3 class="filter-title" id="key-title">Choose a Feature</h3>
+                <div class="fb-tab fb-tab-active" id="worker">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="key-filter-text">Worker #s</span>
+                    </div>
+                </div>
+                <div class="fb-tab" id="avgsal">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="key-filter-text">Average $</span>
+                    </div>
+                </div>
+            </div>
             <!--                 <h4 class='filter subject button' id='worksite'>Worksite</h4>
                 <h4 class='filter subject button' id='employer'>Employer</h4>
             </div>
@@ -65,9 +81,12 @@
                 <h4 class='filter result button' id='denied'>DENIED</h4>
                 <h4 class='filter result button' id='withdrawn'>WITHDRAWN</h4> -->
         </div>
-    <div class='maphere' id='map'>
+        <div class='maphere' id='map'>
+        </div>
+        <!--     <div class='display' id='infobox'>
+        <h5>test</h5>
+    </div> -->
     </div>
-</div>
     <!--
 <div class='map-overlay top'>
     <div class='map-overlay-inner'>

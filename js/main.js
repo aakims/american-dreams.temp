@@ -5,11 +5,11 @@ var mapStyle = 'mapbox://styles/aakims/cjgx8l7h500012sph7oarvuza';
 var map = new mapboxgl.Map({
     container: 'map',
     style: mapStyle,
-    center: [-96, 37.8],
-    zoom: 3
+    center: [-105.43, 39.585],
+    zoom: 3.9
 });
 
-var zoomThreshold = 4;
+var zoomThreshold = 4.5;
 
 map.addControl(new mapboxgl.NavigationControl());
 
@@ -270,7 +270,7 @@ var updateStateLayer = function() {
     //         'fill-color': [
     //             'interpolate',
     //             ['linear'],
-    //             ['get', 'population'],
+    //             ['get', selectKey],
     //             0, '#F2F12D',
     //             500000, '#EED322',
     //             750000, '#E6B71E',
