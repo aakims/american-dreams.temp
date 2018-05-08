@@ -14,6 +14,7 @@ var map = new mapboxgl.Map({
 var colorSch;
 var theStateRule, theRule;
 var zoomThreshold = 4.5;
+var infoChunk; 
 
 var stateMajorCities = {
     "id": "state-major-cities",
@@ -419,32 +420,78 @@ map.on('load', function() {
 
         //var labelStr; 
         var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_18Q1_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_18Q1_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_18Q1_" + result + "_TOPJOB";
         console.log(result_worker);
 
-        var labelStr = '<h5>State of ' + e.features[0].properties.NAME + '</h5><p>There are ' + e.features[0].properties[result_worker] + ' foreign high-skilled workers ' + resultKey[result] + '</p>'
-        console.log(labelStr);
+        // console.log(labelStr);
 
-        console.log(e.features[0]);
-        new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            //.setHTML(e.features[0].properties.NAME)
-            .setHTML(labelStr)
-            .addTo(map);
+        // console.log(e.features[0]);
+
+
+        var infoChunk = "<h2>State of " + 
+        e.features[0].properties['NAME'] + 
+        "</h2><h4>H1B Petitions in 2018Q1</h4><ul><li> total workers " + 
+         resultKey[result] + 
+         " in 2018 Q1: <span class = 'info-head'>  "+ 
+         e.features[0].properties[result_worker] + 
+         "</span></li><li> average salary: " + 
+         resultKey[result] + " in 2018 Q1: <span class = 'info-head'>  "+ 
+         e.features[0].properties[result_salary] + 
+         "</span></li><li> top " + subj + 
+         " city: <br><span class = 'info-head'>  "+ 
+         e.features[0].properties[majCity] + 
+         "</span></li><li>most popular job: <br><span class = 'info-head'>  " + 
+         e.features[0].properties[popJob] + 
+         "</span></li>";
+
+        console.log(infoChunk);
+
+        $('#infobox').empty();
+        $('#infobox').append(infoChunk); 
 
     });
 
     map.on('click', 'county-level-result', function(e) {
 
-        //var labelStr; 
         var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_18Q1_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_18Q1_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_18Q1_" + result + "_TOPJOB";
         console.log(result_worker);
-        var labelStr = '<h5>' + e.features[0].properties.NAME + ' County</h5><p>There are ' + e.features[0].properties[result_worker] + ' foreign high-skilled workers ' + resultKey[result] + '</p>'
 
-        new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            //.setHTML(e.features[0].properties.NAME)
-            .setHTML(labelStr)
-            .addTo(map);
+        // console.log(labelStr);
+
+        // console.log(e.features[0]);
+
+        console.log(e.features[0]);
+        var stateAbbr = e.features[0].properties[majCity].split("-")[1];
+        // var takeoutState = cityState.split("-"); 
+        // console.log(takeoutState); 
+
+        // console.log(cityState); 
+
+        var infoChunk = "<h2>" + 
+        e.features[0].properties['NAME'] + 
+        " County, " + stateAbbr +"</h2><h4>H1B Petitions in 2018Q1</h4><ul><li> total workers " + 
+         resultKey[result] + 
+         " in 2018 Q1: <span class = 'info-head'>  "+ 
+         e.features[0].properties[result_worker] + 
+         "</span></li><li> average salary: " + 
+         resultKey[result] + " in 2018 Q1: <span class = 'info-head'>  "+ 
+         e.features[0].properties[result_salary] + 
+         "</span></li><li> top " + subj + 
+         " city: <br><span class = 'info-head'>  "+ 
+         e.features[0].properties[majCity] + 
+         "</span></li><li>most popular job: <br><span class = 'info-head'>  " + 
+         e.features[0].properties[popJob] + 
+         "</span></li>";
+
+        console.log(infoChunk);
+
+        $('#infobox').empty();
+        $('#infobox').append(infoChunk); 
     });
 
     map.on('click', 'national-major-cities', function(e) {
