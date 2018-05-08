@@ -1,8 +1,8 @@
 
 var resultKey = {
-    'CERT': 'CERTIFIED',
-    'DEN': 'DENIED',
-    'WD': 'WITHDRAWN'
+    'CERT': 'whose H1B got certified',
+    'DEN': 'whose H1B got denied',
+    'WD': 'who withdrew their peitition'
 };
 
 var subjKey = {
