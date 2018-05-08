@@ -31,26 +31,26 @@ map.on('load', function() {
             }
         });
 
-    // map.addLayer({
-    //         "id": "state-level-result",
-    //         "type": "fill",
-    //         "source": "state-level",
-    //         "maxzoom": zoomThreshold,
-    //         "paint": {
-    //             'fill-color': 'rgba(155, 100, 240, 0.4)'
-    //         }
-    //         // {
-    //         //     "circle-radius": markerSize,
-    //         //     "circle-color": "#db8a83",
-    //         //     // [
-    //         //     // 'match', 
-    //         //     // ['get', 'properties.olive'],
-    //         //     // 6 , "#ffff", 
-    //         //     // "#db8a83"
-    //         //     // ],
-    //         //     "circle-opacity": 1
-    //         // }
-    //     });
+    map.addLayer({
+            "id": "state-level-result",
+            "type": "fill",
+            "source": "state-level",
+            "maxzoom": zoomThreshold,
+            "paint": {
+                'fill-color': 'rgba(155, 100, 240, 0.4)'
+            }
+            // {
+            //     "circle-radius": markerSize,
+            //     "circle-color": "#db8a83",
+            //     // [
+            //     // 'match', 
+            //     // ['get', 'properties.olive'],
+            //     // 6 , "#ffff", 
+            //     // "#db8a83"
+            //     // ],
+            //     "circle-opacity": 1
+            // }
+        });
 
     map.addLayer({
             "id": "county-level-result",
@@ -103,15 +103,29 @@ map.on('load', function() {
     });
 
     $('#worksite').click(function() {
-        subject = 'worksite';
+        subj = 'worksite';
+        //subjectChange();
+        getData("worksite");
         initizeWithState(); 
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        updateSource();
+        updateLayer(); 
         //printThis();
         //console.log('withdrawn');
     });
 
     $('#employer').click(function() {
-        subject = 'employer';
+        subj = 'employer';
+        getData("employer");
         initizeWithState(); 
+        //subjectChange(); 
+        initizeWithState(); 
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        updateSource();
+        updateLayer();
+        //initizeWithState(); 
     });
 
     var whichLev = function () {
@@ -129,13 +143,13 @@ map.on('load', function() {
     map.on('click', labelLayer, function (e) {
 
         // var labelStr; 
-        var result_worker = subjectKey[subject] + "_18Q1_" + result + "_WORKER";
+        var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
         console.log(result_worker);
         
         var labelStr = '<h3>State of ' + e.features[0].properties.NAME + '</h3><p>There are ' + e.features[0].properties[result_worker] + ' H1B workers</p>'
         console.log(labelStr);
 
-    
+        console.log(e.features[0]);
         new mapboxgl.Popup()
             .setLngLat(e.lngLat)
             //.setHTML(e.features[0].properties.NAME)
@@ -184,7 +198,7 @@ var updateLayer = function() {
 var labelMaker = function(labelLayer) {
 
     var labelStr; 
-    var result_worker = subjectKey[subject] + "_18Q1_" + result + "_WORKER";
+    var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
     console.log(result_worker);
     if (labelLayer == 'state-level-result') {
         labelStr = '<h3>State of ' + e.features[0].properties.NAME + '</h3><p>There are' + e.features[0].properties[result_worker] + '</p>'
@@ -193,63 +207,63 @@ var labelMaker = function(labelLayer) {
 
 };
 
-var displayMap = function() {
+// var displayMap = function() {
 
-    var map = new mapboxgl.Map({
-    container: 'map',
-    style: mapStyle,
-    center: [-96, 37.8],
-    zoom: 3
-    });
+//     var map = new mapboxgl.Map({
+//     container: 'map',
+//     style: mapStyle,
+//     center: [-96, 37.8],
+//     zoom: 3
+//     });
 
-    console.log(map);
-    map.on('load', function() {
-        // Add a layer showing the state polygons.
-        // map.addLayer({
-        //     'id': 'states-layer',
-        //     'type': 'fill',
-        //     'source': {
-        //         'type': 'geojson',
-        //         'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson'
-        //     },
-        //     'paint': {
-        //         'fill-color': 'rgba(200, 100, 240, 0.4)',
-        //         'fill-outline-color': 'rgba(200, 100, 240, 1)'
-        //     }
-        // });
-
-
-        map.addSource("state-level", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": thisStateData
-            }
-        });
+//     console.log(map);
+//     map.on('load', function() {
+//         // Add a layer showing the state polygons.
+//         // map.addLayer({
+//         //     'id': 'states-layer',
+//         //     'type': 'fill',
+//         //     'source': {
+//         //         'type': 'geojson',
+//         //         'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson'
+//         //     },
+//         //     'paint': {
+//         //         'fill-color': 'rgba(200, 100, 240, 0.4)',
+//         //         'fill-outline-color': 'rgba(200, 100, 240, 1)'
+//         //     }
+//         // });
 
 
-        map.addLayer({
-            "id": "state-level-result",
-            "type": "fill",
-            "source": "state-level",
-            "paint": {
-                'fill-color': 'rgba(155, 100, 240, 0.4)'
-            }
-            // {
-            //     "circle-radius": markerSize,
-            //     "circle-color": "#db8a83",
-            //     // [
-            //     // 'match', 
-            //     // ['get', 'properties.olive'],
-            //     // 6 , "#ffff", 
-            //     // "#db8a83"
-            //     // ],
-            //     "circle-opacity": 1
-            // }
-        });
+//         map.addSource("state-level", {
+//             "type": "geojson",
+//             "data": {
+//                 "type": "FeatureCollection",
+//                 "features": thisStateData
+//             }
+//         });
 
-    });
-};
+
+//         map.addLayer({
+//             "id": "state-level-result",
+//             "type": "fill",
+//             "source": "state-level",
+//             "paint": {
+//                 'fill-color': 'rgba(155, 100, 240, 0.4)'
+//             }
+//             // {
+//             //     "circle-radius": markerSize,
+//             //     "circle-color": "#db8a83",
+//             //     // [
+//             //     // 'match', 
+//             //     // ['get', 'properties.olive'],
+//             //     // 6 , "#ffff", 
+//             //     // "#db8a83"
+//             //     // ],
+//             //     "circle-opacity": 1
+//             // }
+//         });
+
+//     });
+// };
 
 //displayMap(); 
 // var months = [

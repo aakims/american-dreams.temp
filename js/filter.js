@@ -1,12 +1,10 @@
-
-
 var resultKey = {
     'CERT': 'CERTIFIED',
-    'DEN' : 'DENIED',
-     'WD' : 'WITHDRAWN'
+    'DEN': 'DENIED',
+    'WD': 'WITHDRAWN'
 };
 
-var subjectKey = {
+var subjKey = {
     'employer': 'emp',
     'worksite': 'work'
 };
@@ -46,8 +44,8 @@ var quarterKey = {
 var thisData;
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 var selectKeys;
-var quarter, result;// = 'CERT',
-    subject = 'worksite';
+var quarter, result = 'CERT',
+    subj = 'employer';
 var wantedRes, wantedSubj;
 
 // var wantCertified = $('#certified').click(function() {
@@ -83,45 +81,54 @@ var wantedRes, wantedSubj;
 //     });
 
 var initizeWithState = function() { //when first page load 
-    getData(subject);
-    timeForStateData(); 
+    console.log(result, subj);
+    //getData(subject);
+    timeForStateData();
     //displayMap();
     console.log("Map with State");
+    console.log(thisStateData[0]);
 
-    timeForCountyData(); 
+    timeForCountyData();
     console.log("County Followed");
+    console.log(thisCountyData[0]);
+
 
 }
 
-var resultChange = function () { //when only result changed (no need to re download data)
+var resultChange = function() { //when only result changed (no need to re download data)
     giveStateData = JSON.parse(JSON.stringify(fedStateData));
     thisStateData = defineData(giveStateData);
     giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
-    thisCountyData = defineData(giveCountyData); 
-}
-
-var printThis = function() {
-    console.log(result);
-    console.log(subject);
-    getData(subject);
-    timeForData(); 
-
-    console.log(thisCountyData[10]);
-    console.log(thisStateData[10]);
+    thisCountyData = defineData(giveCountyData);
 };
+
+// var subjectChange = function() {
+//     //getData(subject);
+//     initizeWithState();
+// };
+
+// var printThis = function() {
+//     console.log(result);
+//     console.log(subject);
+//     getData(subject);
+//     timeForData(); 
+
+//     console.log(thisCountyData[10]);
+//     console.log(thisStateData[10]);
+// };
 
 //result = resultKey[wantedRes];
 //subject = subjectKey[wantedSubj];
-quarter = '2016 Q1';
+//quarter = '2016 Q1';
 
-var getData = function(newSubject) { // "employer" vs "worksite" 
+var getData = function(newSubj) { // "employer" vs "worksite" 
 
-    urlCountyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubject + ".geojson";
-    urlStateStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data/geojson/byState_" + newSubject + ".geojson";
+    urlCountyStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data//geojson/byCounty_" + newSubj + ".geojson";
+    urlStateStr = "https://raw.githubusercontent.com/aakims/american-dreams.temp/master/data/geojson/byState_" + newSubj + ".geojson";
 
 };
 
-getData(subject);
+getData(subj);
 
 var actualStateDownload =
     $.ajax(urlStateStr).done(function(res) {
@@ -148,7 +155,7 @@ var allFields = function(fedData) {
 
 var defineData = function(fedData) { // subject: employer vs worksite
 
-    var sprefx = subjectKey[subject];
+    var sprefx = subjKey[subj];
     //qprefx = quarterKey[quarter],
     //rprefx = resultKey[result];
     //uprefx = sprefx + qprefx + rprefx;
@@ -178,11 +185,19 @@ var defineData = function(fedData) { // subject: employer vs worksite
     return thisData;
 };
 var fedData, datafirst;
-var fedStateData, fedCountyData; 
-var giveStateData, giveCountyData; 
+var fedStateData, fedCountyData;
+var giveStateData, giveCountyData;
 var thisStateData, thisCountyData;
+
+//getData(subject);
+
+
 var timeForStateData = function() {
-    actualStateDownload.done(function(data) {
+    $.ajax(urlStateStr).done(function(res) {
+        //console.log(res); 
+        //thisData = res;
+        return res;
+    }).done(function(data) {
         console.log(data);
         datafirst = data;
         fedStateData = JSON.parse(data);
@@ -190,13 +205,16 @@ var timeForStateData = function() {
         console.log(fedStateData.features[1]);
         thisStateData = defineData(giveStateData);
     });
-    console.log('new fetch!');
+    console.log('new fetch! from: ', subj, "   ", result, urlStateStr);
 
 };
 
-
 var timeForCountyData = function() {
-    actualCountyDownload.done(function(data) {
+    $.ajax(urlCountyStr).done(function(res) {
+        //console.log(res); 
+        //thisData = res;
+        return res;
+    }).done(function(data) {
         console.log(data);
         datafirst = data;
         fedCountyData = JSON.parse(data);
@@ -205,6 +223,6 @@ var timeForCountyData = function() {
         thisCountyData = defineData(giveCountyData);
     });
     console.log('county is done!')
-}; 
+};
 
-initizeWithState();
+//initizeWithState();
