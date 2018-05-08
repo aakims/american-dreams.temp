@@ -35,7 +35,7 @@ map.on('load', function() {
         "type": "geojson",
         "data": {
             "type": "FeatureCollection",
-            "features": thisCities
+            "features": allCities
         }
     });
 
@@ -47,17 +47,6 @@ map.on('load', function() {
         "paint": {
             'fill-color': 'rgba(155, 100, 240, 0.4)'
         }
-        // {
-        //     "circle-radius": markerSize,
-        //     "circle-color": "#db8a83",
-        //     // [
-        //     // 'match', 
-        //     // ['get', 'properties.olive'],
-        //     // 6 , "#ffff", 
-        //     // "#db8a83"
-        //     // ],
-        //     "circle-opacity": 1
-        // }
     });
 
     map.addLayer({
@@ -68,35 +57,36 @@ map.on('load', function() {
         "paint": {
             'fill-color': 'rgba(155, 155, 155, 0.4)'
         }
-        // {
-        //     "circle-radius": markerSize,
-        //     "circle-color": "#db8a83",
-        //     // [
-        //     // 'match', 
-        //     // ['get', 'properties.olive'],
-        //     // 6 , "#ffff", 
-        //     // "#db8a83"
-        //     // ],
-        //     "circle-opacity": 1
-        // }
     });
 
     map.addLayer({
         "id": "state-major-cities",
         "type": "circle",
         "source": "cities",
-        //"filter": ["==", "STATEEMP", true],
+        "filter": ["any", ["==", "NATEMP", "True"],
+            ["==", "NATWORK", "True"]
+        ],
         "paint": {
-                "circle-radius": 3,
-                "circle-color": "#db8a83",
-                // [
-                // 'match', 
-                // ['get', 'properties.olive'],
-                // 6 , "#ffff", 
-                // "#db8a83"
-                // ],
-                "circle-opacity": 1
-    }});
+            "circle-radius": 3,
+            "circle-color": "#db8a83",
+            "circle-opacity": 1
+        }
+    });
+
+    map.addLayer({
+        "id": "county-major-cities",
+        "type": "circle",
+        "source": "cities",
+        "minzoom": zoomThreshold,
+        "filter": ["all", ["==", "NATEMP", "False"],
+            ["==", "NATEMP", "False"]
+        ],
+        "paint": {
+            "circle-radius": 3,
+            "circle-color": "#DBD3BF",
+            "circle-opacity": 1
+        }
+    });
 
 
     $('#denied').click(function() {

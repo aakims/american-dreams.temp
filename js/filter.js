@@ -1,8 +1,20 @@
-var thisCities = _.chain(maincities.features)
-.filter(function (feature) {
-    return (feature.properties['STATEEMP'] || feature.properties['STATEWORK'])
-}).value(); 
-console.log(thisCities[0]);
+// var thisCities = _.chain(maincities.features)
+//     .filter(function(feature) {
+//         return (feature.properties['STATEEMP'] || feature.properties['STATEWORK'])
+//     }).map(function(feature) {
+//         feature.properties = _.pick(feature.properites, ['CITYLABEL', 'TYPE']);
+//         return feature;
+//     }).value();
+
+// console.log(thisCities[0]);
+
+var allCities = _.chain(maincities.features) 
+// .map(function(feature) {
+//     feature.properties = _.pick(feature.properties, ['CITYLABEL', 'TYPE']);
+//     return feature; 
+
+// })
+.value(); 
 
 var resultKey = {
     'CERT': 'whose H1B got certified',
