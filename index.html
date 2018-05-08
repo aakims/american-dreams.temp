@@ -13,28 +13,26 @@
     <!-- style sheets -->
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="css/style.css" />
-
 </head>
 
 <body>
-<div class="wrapper">
-    <div class="filterbar">
-        <div class="filter" id="subject">
-        <h3>Choose one</h3>
-        <h4 class='filter subject button' id='worksite'>Worksite</h4>
-        <h4 class='filter subject button' id='employer'>Employer</h4>
+    <div class="wrapper">
+        <div class="filterbar">
+            <div class="filter" id="subject">
+                <h3>Visualize by Which Location?</h3>
+                <h4 class='filter subject button' id='worksite'>Worksite</h4>
+                <h4 class='filter subject button' id='employer'>Employer</h4>
+            </div>
+            <div class="filter" id="result">
+                <h3>Result</h3>
+                <h4 class='filter result button' id='certified'>CERTIFIED</h4>
+                <h4 class='filter result button' id='denied'>DENIED</h4>
+                <h4 class='filter result button' id='withdrawn'>WITHDRAWN</h4>
+            </div>
+        </div>
+        <div class='maphere' id='map'>
+        </div>
     </div>
-    <div class="filter" id="result">
-        <h3>Result</h3>
-        <h4 class='filter result button' id='certified'>CERTIFIED</h4>
-        <h4 class='filter result button' id='denied'>DENIED</h4>
-        <h4 class='filter result button' id='withdrawn'>WITHDRAWN</h4>
-    </div>
-    </div>
-    
-    <div class='maphere' id='map'>
-    </div>
-</div>
     <!--
 <div class='map-overlay top'>
     <div class='map-overlay-inner'>
