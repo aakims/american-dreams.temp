@@ -1,20 +1,5 @@
-// var thisCities = _.chain(maincities.features)
-//     .filter(function(feature) {
-//         return (feature.properties['STATEEMP'] || feature.properties['STATEWORK'])
-//     }).map(function(feature) {
-//         feature.properties = _.pick(feature.properites, ['CITYLABEL', 'TYPE']);
-//         return feature;
-//     }).value();
 
-// console.log(thisCities[0]);
-
-var allCities = _.chain(maincities.features) 
-// .map(function(feature) {
-//     feature.properties = _.pick(feature.properties, ['CITYLABEL', 'TYPE']);
-//     return feature; 
-
-// })
-.value(); 
+var allCities = _.chain(maincities.features).value();
 
 var resultKey = {
     'CERT': 'whose H1B got certified',
@@ -95,20 +80,6 @@ var getData = function(newSubj) { // "employer" vs "worksite"
 
 getData(subj);
 
-// var actualStateDownload =
-//     $.ajax(urlStateStr).done(function(res) {
-//         //console.log(res); 
-//         //thisData = res;
-//         return res;
-//     });
-
-// var actualCountyDownload =
-//     $.ajax(urlCountyStr).done(function(res) {
-//         //console.log(res); 
-//         //thisData = res;
-//         return res;
-//     });
-
 var allFields = function(fedData) {
     // console.log (_.unique(_.flatten(_.map(fedData.features, function(feature) {
     //     return _.allKeys(feature.properties)
@@ -187,10 +158,10 @@ var timeForCountyData = function() {
         //console.log(fedCountyData.features[1]);
         thisCountyData = defineData(giveCountyData);
     }).done(function() {
-        
-        layerTheWorks(); 
+
+        layerTheWorks();
     });
-    
+
     console.log('county is done!')
 };
 initizeWithState();
