@@ -185,6 +185,15 @@ var timeForCountyData = function() {
         giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
         //console.log(fedCountyData.features[1]);
         thisCountyData = defineData(giveCountyData);
+    }).done(function() {
+        map.removeLayer("state-level-result");
+        map.removeSource("state-level");
+        map.removeLayer("county-level-result");
+        map.removeSource("county-level");
+        updateStateSource();
+        updateStateLayer();
+        updateCountySource();
+        updateCountyLayer();
     });
     console.log('county is done!')
 };
