@@ -12,27 +12,59 @@
     <!-- D3 -->
     <!-- style sheets -->
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+        <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Oxygen+Mono|Merriweather+Sans" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
     <div class="wrapper">
+        <div class="title">
+            <h1>american_dreams.temp</h1>
+        </div>
         <div class="filterbar">
-            <div class="filter" id="subject">
+            <div class="filterbox" id="subj-filter">
                 <h3>Visualize by Which Location?</h3>
-                <h4 class='filter subject button' id='worksite'>Worksite</h4>
+                <div class="fb-tab fb-tab-active">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="worksite">WORKSITE</span>
+                    </div>
+                </div>
+                <div class="fb-tab">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="employer">EMPLOYER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="filterbox" id="result-filter">
+                <h3>View by Petition Result</h3>
+                <div class="fb-tab fb-tab-active">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="certified">CERTIFIED</span>
+                    </div>
+                </div>
+                <div class="fb-tab">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="denied">DENIED</span>
+                    </div>
+                </div>
+                <div class="fb-tab">
+                    <div class="fb-spot">
+                        <span class="fb-text" id="withdrawn">WITHDRAWN</span>
+                    </div>
+                </div>
+            </div>
+            <!--                 <h4 class='filter subject button' id='worksite'>Worksite</h4>
                 <h4 class='filter subject button' id='employer'>Employer</h4>
             </div>
-            <div class="filter" id="result">
+            <div class="filterbox" id="result-filter">
                 <h3>Result</h3>
                 <h4 class='filter result button' id='certified'>CERTIFIED</h4>
                 <h4 class='filter result button' id='denied'>DENIED</h4>
-                <h4 class='filter result button' id='withdrawn'>WITHDRAWN</h4>
-            </div>
+                <h4 class='filter result button' id='withdrawn'>WITHDRAWN</h4> -->
         </div>
-        <div class='maphere' id='map'>
-        </div>
+    <div class='maphere' id='map'>
     </div>
+</div>
     <!--
 <div class='map-overlay top'>
     <div class='map-overlay-inner'>
@@ -53,6 +85,7 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
     <script src="js/filter.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/buttons.js"></script>
     <!-- <script src="js/main.js"></script> -->
 </body>
 
