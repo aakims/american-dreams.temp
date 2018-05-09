@@ -18,7 +18,7 @@ var map = new mapboxgl.Map({
 
 var colorSch;
 var theStateRule, theRule;
-var zoomThreshold = 4.5;
+var zoomThreshold = 4.1;
 var infoChunk;
 var stateLegend, countyLegend;
 
