@@ -5,12 +5,11 @@ $(".fb-tab").click(function() {
 });
 
 $("#about").click(function() {
-	$('.curtain').show();
-	$('.overlay').show(); 
+    $('.curtain').show();
+    $('.overlay').show();
 });
 
-$('.close').click(function() { 
-	$('.overlay').hide();
-	$('.curtain').hide();
+$('.close').click(function() {
+    $('.overlay').hide();
+    $('.curtain').hide();
 });
-
