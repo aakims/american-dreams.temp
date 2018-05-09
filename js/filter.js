@@ -1,3 +1,4 @@
+// bring in cities geojson 
 var allCities = _.chain(maincities.features).value();
 
 var resultKey = {
@@ -11,6 +12,8 @@ var subjKey = {
     'worksite': 'work'
 };
 
+// To be used for the next update: time slider 
+/*
 var quarterList = [
     '2015 Q1',
     '2015 Q2',
@@ -42,24 +45,31 @@ var quarterKey = {
     '2017 Q4': '17Q4',
     '2018 Q1': '18Q1'
 };
+*/
 
 var thisData;
-var featureKey = 'WORKER';
+
+// filtering variables
+var featureKey = 'WORKER',
+quarter, 
+result = 'CERT',
+subj = 'worksite';
+
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
+
+// array variable to store columns that match filtering conditions 
 var selectKeys;
-var quarter, result = 'CERT',
-    subj = 'worksite';
-var wantedRes, wantedSubj;
+
 
 var initizeWithState = function() { //when first page load 
-    console.log(result, subj);
+    //console.log(result, subj);
     //getData(subject);
     timeForCountyData();
-    console.log("County Followed");
+    //console.log("County Followed");
     //console.log(thisCountyData[0]);
     timeForStateData();
     //displayMap();
-    console.log("Map with State");
+    //console.log("Map with State");
     //console.log(thisStateData[0]);
 }
 
@@ -163,6 +173,7 @@ var timeForCountyData = function() {
 
     console.log('county is done!')
 };
+
 initizeWithState();
 
 var stateCities, allCities;

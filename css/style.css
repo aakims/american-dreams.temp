@@ -61,9 +61,23 @@ div.hidden {
     opacity: 1;
 }
 
-li::before {content: "•"; color: #3C8685;
-  display: inline-block; width: 1em;
-  margin-left: -1em; line-height: 200%;}
+li {
+        list-style-type: none;
+}
+
+.pop::before {
+    content: ">"; 
+    margin-left: -3em; 
+}
+
+li::before {
+    content: "•"; 
+    color: #3C8685;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em; 
+    line-height: 200%;}
+
 
 .legend-option {
 

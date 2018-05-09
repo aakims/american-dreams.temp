@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
     $('.legend-option').hide();
     $('.curtain').hide();
     $('.overlay').hide();
@@ -436,14 +436,14 @@ map.on('load', function() {
         var result_salary = subjKey[subj] + "_17Q2_" + result + "_AVGSAL";
         var majCity = subjKey[subj] + "_17Q2_" + result + "_TOPCITY";
         var popJob = subjKey[subj] + "_17Q2_" + result + "_TOPJOB";
-        console.log(result_worker);
+        //console.log(result_worker);
 
         // console.log(labelStr);
         // console.log(e.features[0]);
 
         var infoChunk = "<h2>State of " +
             e.features[0].properties['NAME'] +
-            "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers: <span class = 'info-head'>  " +
+            "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
@@ -454,7 +454,7 @@ map.on('load', function() {
             e.features[0].properties[popJob] +
             "</span></li>";
 
-        console.log(infoChunk);
+        //console.log(infoChunk);
 
         $('#infobox').empty();
         $('#infobox').append(infoChunk);
@@ -480,7 +480,7 @@ map.on('load', function() {
 
         var infoChunk = "<h2>" +
             e.features[0].properties['NAME'] +
-            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers: <span class = 'info-head'>  " +
+            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
@@ -510,25 +510,16 @@ map.on('load', function() {
         var cityArray = _.uniq(typeArray);
         console.log(cityArray);
 
-        var cityTemplate = function(array) {
+        var cityTemplate = _.map(cityArray, function(cityKind) {
+            console.log(cityKind);
+            return "<li class = 'pop'>" + cityKind + "</li>";
+        }).join('');
+        console.log(cityTemplate);
 
-            listArray = [];
-            for (var index in array) {
-                listItem = "<span> " + array[index] + "</span>";
-                console.log(listItem);
-                listArray.push(listItem);
-            }
-            return listArray;
-
-        };
-
-        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<br>" + cityTemplate(cityArray) + "<br>";
+        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<ul>" + cityTemplate + "</ul>";
         cityPopup.setLngLat(e.lngLat)
             .setHTML(description)
             .addTo(map);
-
-        // Populate the popup and set its coordinates
-        // based on the feature found.
 
     });
 
@@ -541,19 +532,13 @@ map.on('load', function() {
         var cityArray = _.uniq(typeArray);
         console.log(cityArray);
 
-        var cityTemplate = function(array) {
+        var cityTemplate = _.map(cityArray, function(cityKind) {
+            console.log(cityKind);
+            return "<li class = 'pop'>" + cityKind + "</li>";
+        }).join('');
+        console.log(cityTemplate);
 
-            listArray = [];
-            for (var index in array) {
-                listItem = "<span> " + array[index] + "</span>";
-                console.log(listItem);
-                listArray.push(listItem);
-            }
-            return listArray;
-
-        };
-
-        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<br>" + cityTemplate(cityArray) + "<br>";
+        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<ul>" + cityTemplate + "<ul>";
 
         cityPopup.setLngLat(e.lngLat)
             .setHTML(description)
