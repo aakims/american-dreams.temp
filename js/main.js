@@ -442,8 +442,7 @@ map.on('load', function() {
             e.features[0].properties['NAME'] +
             "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
-            "</span></li><li> average salary: " +
-            resultKey[result] + " in 2017 Q2: <span class = 'info-head'>  $ " +
+            "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
             "</span></li><li> top " + subj +
             " city: <br><span class = 'info-head'>  " +
@@ -478,10 +477,9 @@ map.on('load', function() {
 
         var infoChunk = "<h2>" +
             e.features[0].properties['NAME'] +
-            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers " +
-            " in 2017 Q2: <span class = 'info-head'>  " +
+            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
-            "</span></li><li> average salary: <span class = 'info-head'>  $ " +
+            "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
             "</span></li><li> top " + subj +
             " city: <br><span class = 'info-head'>  " +
