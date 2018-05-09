@@ -2,9 +2,9 @@
 var allCities = _.chain(maincities.features).value();
 
 var resultKey = {
-    'CERT': 'whose H1B got certified',
-    'DEN': 'whose H1B got denied',
-    'WD': 'who withdrew their peitition'
+    'CERT': 'Certified',
+    'DEN': 'Denied',
+    'WD': 'Withdrawn'
 };
 
 var subjKey = {
@@ -51,9 +51,9 @@ var thisData;
 
 // filtering variables
 var featureKey = 'WORKER',
-quarter, 
-result = 'CERT',
-subj = 'worksite';
+    quarter = '17Q2',
+    result = 'CERT',
+    subj = 'worksite';
 
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
 

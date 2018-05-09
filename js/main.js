@@ -35,7 +35,7 @@ var stateMajorCities = {
             "interpolate", ["linear"],
             ["zoom"],
             zoomThreshold, 0,
-            zoomThreshold + 1, 9
+            zoomThreshold + 1, 7
         ],
         "circle-color": "#DA981E",
         "circle-stroke-width": 3,
@@ -56,7 +56,7 @@ var nationalMajorCities = {
             "interpolate", ["linear"],
             ["zoom"],
             zoomThreshold, 4,
-            zoomThreshold + 1, 10
+            zoomThreshold + 1, 8
         ],
         "circle-color": "#1895A3",
         "circle-stroke-width": 3,
@@ -69,7 +69,7 @@ map.addControl(new mapboxgl.NavigationControl());
 
 function showStatePaintRules() {
 
-    var selKey = subjKey[subj] + "_17Q2_" + result + "_" + featureKey;
+    var selKey = subjKey[subj] + "_" + quarter + "_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -158,7 +158,7 @@ function showStatePaintRules() {
 
 function showPaintRules() {
 
-    var selKey = subjKey[subj] + "_17Q2_" + result + "_" + featureKey;
+    var selKey = subjKey[subj] + "_" + quarter + "_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -432,10 +432,10 @@ map.on('load', function() {
     map.on('click', 'state-level-result', function(e) {
 
         //var labelStr; 
-        var result_worker = subjKey[subj] + "_17Q2_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_17Q2_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_17Q2_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_17Q2_" + result + "_TOPJOB";
+        var result_worker = subjKey[subj] + "_" + quarter + "_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_" + quarter + "_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_" + quarter + "_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_" + quarter + "_" + result + "_TOPJOB";
         //console.log(result_worker);
 
         // console.log(labelStr);
@@ -443,7 +443,9 @@ map.on('load', function() {
 
         var infoChunk = "<h2>State of " +
             e.features[0].properties['NAME'] +
-            "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
+            "</h2><h4>H1B Petitions " + 
+            resultKey[result] + 
+            " in 20" + quarter + "</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
@@ -463,10 +465,10 @@ map.on('load', function() {
 
     map.on('click', 'county-level-result', function(e) {
 
-        var result_worker = subjKey[subj] + "_17Q2_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_17Q2_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_17Q2_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_17Q2_" + result + "_TOPJOB";
+        var result_worker = subjKey[subj] + "_" + quarter + "_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_" + quarter + "_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_" + quarter + "_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_" + quarter + "_" + result + "_TOPJOB";
         console.log(result_worker);
 
         // console.log(labelStr);
@@ -480,7 +482,7 @@ map.on('load', function() {
 
         var infoChunk = "<h2>" +
             e.features[0].properties['NAME'] +
-            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
+            " County, " + stateAbbr + "</h2><h4>H1B Petitions " + resultKey[result] + " in 20" + quarter + "</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +

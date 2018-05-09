@@ -39,11 +39,15 @@ div.hidden {
 .overlay {
     z-index: 999;
     position: relative;
-    width: 40%; 
-    margin: 100px auto;
+    width: 50%; 
+    margin: 70px auto;
     padding: 20px;
     background: #efefef;
 
+}
+
+#githubLink {
+    color: #3C8685;
 }
 
 .close {
