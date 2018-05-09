@@ -1,4 +1,3 @@
-
 var allCities = _.chain(maincities.features).value();
 
 var resultKey = {

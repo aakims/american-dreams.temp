@@ -1,4 +1,6 @@
 $('.legend-option').hide();
+$('.curtain').hide();
+$('.overlay').hide();
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
 
@@ -15,6 +17,7 @@ var colorSch;
 var theStateRule, theRule;
 var zoomThreshold = 4.5;
 var infoChunk;
+var stateLegend, countyLegend;
 
 var stateMajorCities = {
     "id": "state-major-cities",
@@ -52,9 +55,9 @@ var nationalMajorCities = {
             zoomThreshold, 4,
             zoomThreshold + 1, 10
         ],
-        "circle-color": "#7DAA8B",
+        "circle-color": "#1895A3",
         "circle-stroke-width": 3,
-        "circle-stroke-color": "#7DAA8B",
+        "circle-stroke-color": "#1895A3",
         "circle-opacity": 0.7
     }
 };
@@ -63,7 +66,7 @@ map.addControl(new mapboxgl.NavigationControl());
 
 function showStatePaintRules() {
 
-    var selKey = subjKey[subj] + "_18Q1_" + result + "_" + featureKey;
+    var selKey = subjKey[subj] + "_17Q2_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -152,7 +155,7 @@ function showStatePaintRules() {
 
 function showPaintRules() {
 
-    var selKey = subjKey[subj] + "_18Q1_" + result + "_" + featureKey;
+    var selKey = subjKey[subj] + "_17Q2_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -426,20 +429,18 @@ map.on('load', function() {
     map.on('click', 'state-level-result', function(e) {
 
         //var labelStr; 
-        var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_18Q1_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_18Q1_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_18Q1_" + result + "_TOPJOB";
+        var result_worker = subjKey[subj] + "_17Q2_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_17Q2_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_17Q2_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_17Q2_" + result + "_TOPJOB";
         console.log(result_worker);
 
         // console.log(labelStr);
-
         // console.log(e.features[0]);
-
 
         var infoChunk = "<h2>State of " +
             e.features[0].properties['NAME'] +
-            "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2018Q1</h4><ul><li> total workers: <span class = 'info-head'>  " +
+            "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary: " +
             resultKey[result] + " in 2018 Q1: <span class = 'info-head'>  $ " +
@@ -460,26 +461,24 @@ map.on('load', function() {
 
     map.on('click', 'county-level-result', function(e) {
 
-        var result_worker = subjKey[subj] + "_18Q1_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_18Q1_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_18Q1_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_18Q1_" + result + "_TOPJOB";
+        var result_worker = subjKey[subj] + "_17Q2_" + result + "_WORKER";
+        var result_salary = subjKey[subj] + "_17Q2_" + result + "_AVGSAL";
+        var majCity = subjKey[subj] + "_17Q2_" + result + "_TOPCITY";
+        var popJob = subjKey[subj] + "_17Q2_" + result + "_TOPJOB";
         console.log(result_worker);
 
         // console.log(labelStr);
-
         // console.log(e.features[0]);
 
         console.log(e.features[0]);
         var stateAbbr = e.features[0].properties[majCity].split("-")[1];
         // var takeoutState = cityState.split("-"); 
         // console.log(takeoutState); 
-
         // console.log(cityState); 
 
         var infoChunk = "<h2>" +
             e.features[0].properties['NAME'] +
-            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2018Q1</h4><ul><li> total workers " +
+            " County, " + stateAbbr + "</h2><h4>H1B Petitions<br>for " + resultKey[result] + " in 2017Q2</h4><ul><li> total workers " +
             " in 2018 Q1: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary: <span class = 'info-head'>  $ " +
@@ -559,9 +558,6 @@ map.on('load', function() {
             .setHTML(description)
             .addTo(map);
 
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-
     });
 
     map.on('mouseleave', 'national-major-cities', function() {
@@ -574,8 +570,6 @@ map.on('load', function() {
 
 
 });
-
-
 
 var updateStateSource = function() {
     return map.addSource("state-level", {
@@ -604,10 +598,7 @@ var updateStateLayer = function() {
         "source": "state-level",
         "maxzoom": zoomThreshold,
         "paint": theStateRule
-
-
     });
-
 };
 
 var updateCountyLayer = function() {
@@ -618,7 +609,6 @@ var updateCountyLayer = function() {
         "minzoom": zoomThreshold,
         "paint": theRule
     });
-
 };
 
 var updateNationalCities = function() {
@@ -645,12 +635,10 @@ var layerTheWorks = function() {
     updateNationalCities();
     updateStateCities();
     toggleLegend();
-    // $(stateLegend).show();
-    // $(countyLegend).show();
     updateLegend();
 };
 
-var stateLegend, countyLegend;
+
 var toggleLegend = function() {
 
     $('.legend-option').hide();

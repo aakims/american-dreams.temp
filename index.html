@@ -3,28 +3,45 @@
 <meta charset='utf-8' />
 
 <head>
-    <title>H1B</title>
+    <title>National Geographies of H1B Foreign Worker Visa</title>
     <!--- data imports-->
     <script src="data/geojson/majorcities.geojson"></script>
     <!-- libraries -->
     <!-- Essentials -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
-    <!-- D3 -->
     <!-- style sheets -->
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed|Oxygen+Mono|Merriweather+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <!-- front loads-->
     <script src="js/filter.js"></script>
 </head>
-
 <body>
+
+    <div class = "curtain" id = "dark-background"></div>
+    <div class='overlay' id='popup-window'>
+            <h3> About the Map </h3>
+            <i class="fas fa-times close"></i>
+            <div class='popup-content'>
+                american_dreams.temp is a data visualization project completed for the final project in 2018 Spring Javascript for Planners and Designers course at PennDesign. <br><br>
+
+                Currently, this interactive map only displays the H1B petitions that were released as 2017Q2 (January 2017 ~ March 2017), the most recent dataset of the second quarter, which is when the petition filings peak, thus showing the richest diversity amongst different regions. Going forward, this map will be improved to include a time slider that will allow users to visualize over time. <br><br>
+
+                Filter the map using the sidebar buttons. Explore through zooms (state vs. county data), mouse-hovering over the major cities where most number of H1B visa petitions originate from, and by clicking the geographies that will display detailed information about the place on the sidebar. <br><br>
+
+                Data Source: <a href = "http://www.flcdatacenter.com/CaseH1B.aspx">LCA Disclosure Data</a><br><br>
+
+                Data Processing & Visualization by Alana S Kim
+            </div>
+        </div>
     <div class="wrapper" id="wrapper">
         <div class="title">
             <h1>american_dreams.temp</h1>
         </div>
         <div class="filterbar-background">
+            <sup id='about'><i class="fas fa-question-circle"> </i></sup>
         </div>
         <div class="filterbar">
             <div class="filterbox" id="subj-filter">
@@ -246,7 +263,7 @@
             <div class='m-label'>$100,000+</div>
         </div>
     </div>
-        <div class='legend-background'>
+    <div class='legend-background'>
     </div>
     <!-- mapboxGL -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
