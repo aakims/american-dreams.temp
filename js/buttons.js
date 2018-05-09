@@ -13,3 +13,8 @@ $('.close').click(function() {
     $('.overlay').hide();
     $('.curtain').hide();
 });
+
+$('.curtain').click(function() {
+    $('.overlay').hide();
+    $('.curtain').hide();
+});
