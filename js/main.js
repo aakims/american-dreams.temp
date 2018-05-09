@@ -1,6 +1,9 @@
-$('.legend-option').hide();
-$('.curtain').hide();
-$('.overlay').hide();
+$(document).ready(function(){
+    $('.legend-option').hide();
+    $('.curtain').hide();
+    $('.overlay').hide();
+    $('.hidden').removeClass("hidden");
+});
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
 

@@ -7,6 +7,9 @@ body {
     font-size: 10px;
 }
 
+div.hidden {
+    display: none; 
+}
 
 #about {
     font-size: 25px;
@@ -14,6 +17,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease-out;
     z-index: 997;
+
 }
 
 #about:hover{
