@@ -451,7 +451,7 @@ map.on('load', function() {
             e.features[0].properties[result_salary] +
             "</span></li><li> top " + subj +
             " city: <br><span class = 'info-head'>  " +
-            e.features[0].properties[majCity] +
+            e.features[0].properties[majCity].replace("-", ", ") +
             "</span></li><li>most popular job: <br><span class = 'info-head'>  " +
             e.features[0].properties[popJob] +
             "</span></li>";
@@ -476,7 +476,7 @@ map.on('load', function() {
 
         console.log(e.features[0]);
         var stateAbbr = e.features[0].properties[majCity].split("-")[1];
-        // var takeoutState = cityState.split("-"); 
+    
         // console.log(takeoutState); 
         // console.log(cityState); 
 
@@ -488,7 +488,7 @@ map.on('load', function() {
             e.features[0].properties[result_salary] +
             "</span></li><li> top " + subj +
             " city: <br><span class = 'info-head'>  " +
-            e.features[0].properties[majCity] +
+            e.features[0].properties[majCity].replace("-", ", ") +
             "</span></li><li>most popular job: <br><span class = 'info-head'>  " +
             e.features[0].properties[popJob] +
             "</span></li>";
