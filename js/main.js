@@ -443,8 +443,8 @@ map.on('load', function() {
 
         var infoChunk = "<h2>State of " +
             e.features[0].properties['NAME'] +
-            "</h2><h4>H1B Petitions " + 
-            resultKey[result] + 
+            "</h2><h4>H1B Petitions " +
+            resultKey[result] +
             " in 20" + quarter + "</h4><ul class = 'info'><li> total workers: <span class = 'info-head'>  " +
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
