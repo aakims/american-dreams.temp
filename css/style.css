@@ -2,13 +2,14 @@ body {
     /*    max-height: 94%;*/
     font-family: "IBM Plex Sans Condensed";
 }
+
 .h5 {
     font-family: "IBM Plex Sans Condensed";
     font-size: 10px;
 }
 
 div.hidden {
-    display: none; 
+    display: none;
 }
 
 #about {
@@ -17,10 +18,9 @@ div.hidden {
     cursor: pointer;
     transition: all 0.2s ease-out;
     z-index: 997;
-
 }
 
-#about:hover{
+#about:hover {
     color: #efefff;
 }
 
@@ -39,11 +39,10 @@ div.hidden {
 .overlay {
     z-index: 999;
     position: relative;
-    width: 50%; 
+    width: 50%;
     margin: 70px auto;
     padding: 20px;
     background: #efefef;
-
 }
 
 .contactLink {
@@ -66,21 +65,22 @@ div.hidden {
 }
 
 li {
-        list-style-type: none;
+    list-style-type: none;
 }
 
 .pop::before {
-    content: ">"; 
-    margin-left: -3em; 
+    content: ">";
+    margin-left: -3em;
 }
 
 li::before {
-    content: "•"; 
+    content: "•";
     color: #3C8685;
-    display: inline-block; 
+    display: inline-block;
     width: 1em;
-    margin-left: -1em; 
-    line-height: 200%;}
+    margin-left: -1em;
+    line-height: 200%;
+}
 
 
 .legend-option {
@@ -89,7 +89,7 @@ li::before {
     position: fixed;
     margin-top: 20px;
     top: 20px;
-    right: 50px; 
+    right: 50px;
     margin-right: 50px;
     z-index: 889;
     width: 550px;
@@ -98,22 +98,21 @@ li::before {
     grid-gap: 0px;
     grid-template-columns: 1fr 3fr;
     grid-template-rows: 1fr 2fr;
-
 }
 
 .col-bar {
     max-height: 30px;
-   width: 100%;
-   margin-top: 2%;
-   grid-column: 2/3;
-   grid-row: 1/2;
+    width: 100%;
+    margin-top: 2%;
+    grid-column: 2/3;
+    grid-row: 1/2;
 }
 
 .legend-background {
     position: fixed;
     margin-top: 20px;
     top: 20px;
-    right: 50px; 
+    right: 50px;
     margin-right: 50px;
     z-index: 888;
     width: 550px;
@@ -121,9 +120,8 @@ li::before {
     border-radius: 10px;
     background: #cdc0b6;
     opacity: 0.75;
-
-
 }
+
 .labels {
     height: 10px;
     width: 100%;
@@ -149,36 +147,36 @@ li::before {
     font-size: 15px;
     max-height: 3px;
     text-align: center;
-
 }
 
-.cert-colors{
+.cert-colors {
     background: linear-gradient(to right, #eff8fb, #b8cde1, #8d97c2, #805aa2, #762178);
 }
 
-.den-colors{
-background: linear-gradient(to right, #fcf0db, #f6cd93, #ee9264, #d3553e, #a52015);
+.den-colors {
+    background: linear-gradient(to right, #fcf0db, #f6cd93, #ee9264, #d3553e, #a52015);
 }
 
-.wd-colors{
-background: linear-gradient(to right, #f1eef6, #d7b5d8, #df65b0, #dd1c77, #980043);
+.wd-colors {
+    background: linear-gradient(to right, #f1eef6, #d7b5d8, #df65b0, #dd1c77, #980043);
 }
 
-.sal-colors{
-background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #006837);
+.sal-colors {
+    background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #006837);
 }
 
 .label {
-  width: 15%;
-  display: inline-block;
-  text-align: center;
+    width: 15%;
+    display: inline-block;
+    text-align: center;
     font-family: "IBM Plex Sans Condensed";
     font-size: 15px;
 }
+
 .m-label {
     width: 18%;
-  display: inline-block;
-  text-align: center;
+    display: inline-block;
+    text-align: center;
     font-family: "IBM Plex Sans Condensed";
     font-size: 15px;
 }
@@ -187,6 +185,7 @@ background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #00683
     font-family: "IBM Plex Sans Condensed";
     font-size: 8px;
 }
+
 .wrapper {
     display: grid;
     max-width: 100%;
@@ -364,7 +363,7 @@ background: linear-gradient(to right, #ffffcc, #c2e699, #78c679, #31a354, #00683
     align-self: start;
     width: 300px;
     height: 350px;
-/*    border-radius: 50px;*/
+    /*    border-radius: 50px;*/
     z-index: 955;
     text-align: left;
     margin-left: 20px;

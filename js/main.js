@@ -27,8 +27,8 @@ var stateMajorCities = {
     "type": "circle",
     "source": "cities",
     "minzoom": zoomThreshold,
-    "filter": ["all", ["==", "NATEMP", "False"],
-        ["==", "NATEMP", "False"]
+    "filter": ["any", ["==", "STATEEMP", "True"],
+        ["==", "STATEWORK", "True"]
     ],
     "paint": {
         "circle-radius": [
