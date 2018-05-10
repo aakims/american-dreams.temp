@@ -27,8 +27,8 @@ var stateMajorCities = {
     "type": "circle",
     "source": "cities",
     "minzoom": zoomThreshold,
-    "filter": ["any", ["==", "STATEEMP", "True"],
-        ["==", "STATEWORK", "True"]
+    "filter": ["any", ["==", "top_state_emp", "True"],
+        ["==", "top_state_work", "True"]
     ],
     "paint": {
         "circle-radius": [
@@ -48,8 +48,8 @@ var nationalMajorCities = {
     "id": "national-major-cities",
     "type": "circle",
     "source": "cities",
-    "filter": ["any", ["==", "NATEMP", "True"],
-        ["==", "NATWORK", "True"]
+    "filter": ["any", ["==", "top_nat_emp", "True"],
+        ["==", "top_nat_work", "True"]
     ],
     "paint": {
         "circle-radius": [
@@ -508,7 +508,7 @@ map.on('load', function() {
 
         map.getCanvas().style.cursor = 'pointer';
         console.log(e.features[0]);
-        var typeArray = e.features[0].properties['TYPE'].split(", ");
+        var typeArray = e.features[0].properties['type'].split(", ");
         var cityArray = _.uniq(typeArray);
         console.log(cityArray);
 
@@ -518,7 +518,7 @@ map.on('load', function() {
         }).join('');
         console.log(cityTemplate);
 
-        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<ul>" + cityTemplate + "</ul>";
+        var description = "<h5>" + e.features[0].properties["location"] + "<ul>" + cityTemplate + "</ul>";
         cityPopup.setLngLat(e.lngLat)
             .setHTML(description)
             .addTo(map);
@@ -530,7 +530,7 @@ map.on('load', function() {
         map.getCanvas().style.cursor = 'pointer';
 
         console.log(e.features[0]);
-        var typeArray = e.features[0].properties['TYPE'].split(", ");
+        var typeArray = e.features[0].properties['type'].split(", ");
         var cityArray = _.uniq(typeArray);
         console.log(cityArray);
 
@@ -540,7 +540,7 @@ map.on('load', function() {
         }).join('');
         console.log(cityTemplate);
 
-        var description = "<h5>" + e.features[0].properties["CITYLABEL"] + "<ul>" + cityTemplate + "<ul>";
+        var description = "<h5>" + e.features[0].properties["location"] + "<ul>" + cityTemplate + "<ul>";
 
         cityPopup.setLngLat(e.lngLat)
             .setHTML(description)
