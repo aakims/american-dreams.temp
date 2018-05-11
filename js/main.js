@@ -38,9 +38,10 @@ var stateMajorCities = {
             zoomThreshold + 1, 7
         ],
         "circle-color": "#DA981E",
-        "circle-stroke-width": 3,
+        "circle-stroke-width": 2,
         "circle-stroke-color": "#DA981E",
-        "circle-opacity": 0.7
+        "circle-stroke-opacity": 0.5,
+        "circle-opacity": 0.75
     }
 };
 
@@ -61,7 +62,8 @@ var nationalMajorCities = {
         "circle-color": "#1895A3",
         "circle-stroke-width": 3,
         "circle-stroke-color": "#1895A3",
-        "circle-opacity": 0.7
+        "circle-stroke-opacity": 0.5,
+        "circle-opacity": 0.75
     }
 };
 
@@ -623,7 +625,7 @@ var layerTheWorks = function() {
     updateNationalCities();
     updateStateCities();
     toggleLegend();
-    //updateLegend();
+
 };
 
 

@@ -49,12 +49,20 @@ div.hidden {
     color: #3C8685;
 }
 
+.contactLink:hover {
+    color: #A073FF;
+}
+
 .close {
     font-size: 10;
     cursor: pointer;
     position: absolute;
     top: 20px;
     right: 30px;
+}
+
+.close:hover {
+    color: #3C8685;
 }
 
 .info-head {
