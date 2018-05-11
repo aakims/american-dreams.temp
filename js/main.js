@@ -623,7 +623,7 @@ var layerTheWorks = function() {
     updateNationalCities();
     updateStateCities();
     toggleLegend();
-    updateLegend();
+    //updateLegend();
 };
 
 
