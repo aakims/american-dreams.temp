@@ -1,26 +1,11 @@
-$(document).ready(function() {
-    $('.legend-option').hide();
-    $('.curtain').hide();
-    $('.overlay').hide();
-    $('.hidden').removeClass("hidden");
-});
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWFraW1zIiwiYSI6ImNqZmQ1bm4yaDF4NnQzdW8xem54dmNzYXQifQ.VfaDRyNApyLYnCVL7PcpzA';
-
-var mapStyle = 'mapbox://styles/aakims/cjgx8l7h500012sph7oarvuza';
-//'mapbox://styles/aakims/cjfgej20o1t452smsp0rysgsi';
+// load the default map 
 var map = new mapboxgl.Map({
     container: 'map',
     style: mapStyle,
     center: [-105.43, 39.585],
     zoom: 3.9
 });
-
-var colorSch;
-var theStateRule, theRule;
-var zoomThreshold = 4.1;
-var infoChunk;
-var stateLegend, countyLegend;
+map.addControl(new mapboxgl.NavigationControl());
 
 var stateMajorCities = {
     "id": "state-major-cities",
@@ -67,194 +52,21 @@ var nationalMajorCities = {
     }
 };
 
-map.addControl(new mapboxgl.NavigationControl());
-
-function showStatePaintRules() {
-
-    var selKey = subj + "_" + quarter + "_" + result + "_" + featureKey;
-    console.log(selKey);
-
-    var findRule = function(colscheme) {
-        output = {
-            'fill-color': colscheme,
-            'fill-opacity': 0.75
-        };
-        return output;
-    };
-
-    var quantBreaksState = [];
-
-    if (featureKey == "WORKER") {
-
-        if ((subj == "work") && (result == "CERT")) {
-            quantBreaksState = [2, 209, 741, 2314, 6537, 142255]; // max 65191
-        } else if ((subj == "work") && (result == "DEN")) {
-            quantBreaksState = [1, 5, 12, 30, 89, 2276]; // max 1137
-        } else if ((subj == "work") && (result == "WD")) {
-            quantBreaksState = [1, 9, 26, 72, 183, 3709]; // NA 
-        } else if ((subj == "emp") && (result == "CERT")) {
-            quantBreaksState = [2, 87, 246, 674, 4087, 151092];
-        } else if ((subj == "emp") && (result == "DEN")) {
-            quantBreaksState = [1, 4, 9, 21, 68, 2629];
-        } else { // (subj == "employer" && result == "WD")
-            quantBreaksState = [1, 5, 12, 39, 135, 15149];
-        }
-
-    } else { // (selKey == "AVGSAL")
-        quantBreaksState = [30000, 45000, 65000, 85000, 100000];
-    }
-    console.log(quantBreaksState);
-
-    var certColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaksState[0], '#eff8fb',
-        quantBreaksState[1], '#b8cde1',
-        quantBreaksState[2], '#8d97c2',
-        quantBreaksState[3], '#805aa2',
-        quantBreaksState[4], '#762178'
-    ];
-
-    var denColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaksState[0], '#fcf0db',
-        quantBreaksState[1], '#f6cd93',
-        quantBreaksState[2], '#ee9264',
-        quantBreaksState[3], '#d3553e',
-        quantBreaksState[4], '#a52015'
-    ];
-
-    var wdColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaksState[0], '#f1eef6',
-        quantBreaksState[1], '#d7b5d8',
-        quantBreaksState[2], '#df65b0',
-        quantBreaksState[3], '#dd1c77',
-        quantBreaksState[4], '#980043'
-    ];
-
-    var salColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaksState[0], '#ffffcc',
-        quantBreaksState[1], '#c2e699',
-        quantBreaksState[2], '#78c679',
-        quantBreaksState[3], '#31a354',
-        quantBreaksState[4], '#006837'
-    ];
-
-    if (featureKey == 'AVGSAL') {
-        theStateRule = findRule(salColSch);
-    } else if (result == "CERT") {
-        theStateRule = findRule(certColSch);
-    } else if (result == "DEN") {
-        theStateRule = findRule(denColSch);
+var geoSwitchOnZoom = function() {
+    return
+    if (map.getZoom() > zoomThreshold) {
+        $(stateLegend).hide();
+        $(countyLegend).show();
     } else {
-        theStateRule = findRule(wdColSch);
+        $(countyLegend).hide();
+        $(stateLegend).show();
     }
-
-    return theStateRule;
 };
-
-function showPaintRules() {
-
-    var selKey = subj + "_" + quarter + "_" + result + "_" + featureKey;
-    console.log(selKey);
-
-    var findRule = function(colscheme) {
-        output = {
-            'fill-color': colscheme,
-            'fill-opacity': 0.75
-        };
-        return output;
-    };
-
-    var quantBreaks = [];
-
-    if (featureKey == "WORKER") {
-
-        if ((subj == "work") && (result == "CERT")) {
-            quantBreaks = [0, 1, 3, 8, 47, 65191]; // max 65191
-        } else if ((subj == "work") && (result == "DEN")) {
-            quantBreaks = [0, 1, 2, 3, 8, 1137]; // max 1137
-        } else if ((subj == "work") && (result == "WD")) {
-            quantBreaks = [0, 1, 2, 4, 14, 1128]; // NA 
-        } else if ((subj == "emp") && (result == "CERT")) {
-            quantBreaks = [0, 1, 2, 6, 27, 90320];
-        } else if ((subj == "emp") && (result == "DEN")) {
-            quantBreaks = [0, 1, 2, 3, 7, 2474];
-        } else { // (subj == "employer" && result == "WD")
-            quantBreaks = [0, 1, 2, 3, 11, 14893];
-        }
-
-    } else { // (selKey == "AVGSAL")
-
-
-        quantBreaks = [30000, 45000, 65000, 85000, 100000];
-
-    }
-    console.log(quantBreaks);
-
-    var certColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaks[0], '#eff8fb',
-        quantBreaks[1], '#b8cde1',
-        quantBreaks[2], '#8d97c2',
-        quantBreaks[3], '#805aa2',
-        quantBreaks[4], '#762178'
-    ];
-
-    var denColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaks[0], '#fcf0db',
-        quantBreaks[1], '#f6cd93',
-        quantBreaks[2], '#ee9264',
-        quantBreaks[3], '#d3553e',
-        quantBreaks[4], '#a52015'
-    ];
-
-    var wdColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaks[0], '#f1eef6',
-        quantBreaks[1], '#d7b5d8',
-        quantBreaks[2], '#df65b0',
-        quantBreaks[3], '#dd1c77',
-        quantBreaks[4], '#980043'
-    ];
-
-    var salColSch = [
-        'interpolate', ['linear'],
-        ['get', selKey],
-        quantBreaks[0], '#ffffcc',
-        quantBreaks[1], '#c2e699',
-        quantBreaks[2], '#78c679',
-        quantBreaks[3], '#31a354',
-        quantBreaks[4], '#006837'
-    ];
-
-    if (featureKey == 'AVGSAL') {
-        theRule = findRule(salColSch);
-    } else if (result == "CERT") {
-        theRule = findRule(certColSch);
-    } else if (result == "DEN") {
-        theRule = findRule(denColSch);
-    } else {
-        theRule = findRule(wdColSch);
-    }
-
-    return theRule;
-};
-
 
 map.on('load', function() {
 
     var cityPopup;
-    showPaintRules();
+    showCountyPaintRules();
     showStatePaintRules();
 
     map.addSource("state-level", {
@@ -281,145 +93,8 @@ map.on('load', function() {
         }
     });
 
-    map.addLayer({
-        "id": "state-level-result",
-        "type": "fill",
-        "source": "state-level",
-        "maxzoom": zoomThreshold,
-        "paint": theStateRule
-    });
-
-    map.addLayer({
-        "id": "county-level-result",
-        "type": "fill",
-        "source": "county-level",
-        "minzoom": zoomThreshold,
-        "paint": theRule
-    });
-
-    toggleLegend();
-
-
-    $('#denied').click(function() {
-        $('#infobox').empty();
-        result = 'DEN';
-        resultChange();
-        toggleLegend();
-        layerTheWorks();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#certified').click(function() {
-        $('#infobox').empty();
-        result = 'CERT';
-        resultChange();
-        layerTheWorks();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#withdrawn').click(function() {
-        $('#infobox').empty();
-        result = 'WD';
-        resultChange();
-        layerTheWorks();
-        //printThis();
-        //console.log('withdrawn');
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#worksite').click(function() {
-        $('#infobox').empty();
-        subj = 'work';
-        resultChange();
-        //subjectChange();
-        getData(subjKey[subj]);
-        initizeWithState();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#employer').click(function() {
-        $('#infobox').empty();
-        subj = 'emp';
-        //resultChange(); 
-        getData(subjKey[subj]);
-        initizeWithState();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#worker').click(function() {
-        $('#infobox').empty();
-        featureKey = 'WORKER';
-        layerTheWorks();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
-    $('#avgsal').click(function() {
-        $('#infobox').empty();
-        featureKey = 'AVGSAL';
-        layerTheWorks();
-        map.on('zoom', function() {
-            if (map.getZoom() > zoomThreshold) {
-                $(stateLegend).hide();
-                $(countyLegend).show();
-            } else {
-                $(countyLegend).hide();
-                $(stateLegend).show();
-            }
-        });
-    });
-
     map.addLayer(nationalMajorCities);
-
     map.addLayer(stateMajorCities);
-
     map.on('zoom', function() {
         if (map.getZoom() > zoomThreshold) {
             $(stateLegend).hide();
@@ -430,6 +105,7 @@ map.on('load', function() {
         }
     });
 
+    // ** CLICK ** behaviors 
 
     map.on('click', 'state-level-result', function(e) {
 
@@ -478,7 +154,7 @@ map.on('load', function() {
 
         console.log(e.features[0]);
         var stateAbbr = e.features[0].properties[majCity].split("-")[1];
-    
+
         // console.log(takeoutState); 
         // console.log(cityState); 
 
@@ -500,6 +176,8 @@ map.on('load', function() {
         $('#infobox').empty();
         $('#infobox').append(infoChunk);
     });
+
+    // ** HOVER ** behaviors 
 
     var cityPopup = new mapboxgl.Popup({
         closeButton: false,
@@ -558,6 +236,56 @@ map.on('load', function() {
         cityPopup.remove();
     });
 
+    // ** FILTER/SUBSET ** behaviors 
+
+    $('#denied').click(function() {
+        $('#infobox').empty();
+        result = 'DEN';
+        resultChange();
+        toggleLegend();
+        layerTheWorks();
+    });
+
+    $('#certified').click(function() {
+        $('#infobox').empty();
+        result = 'CERT';
+        resultChange();
+        layerTheWorks();
+    });
+
+    $('#withdrawn').click(function() {
+        $('#infobox').empty();
+        result = 'WD';
+        resultChange();
+        layerTheWorks();
+    });
+
+    $('#worksite').click(function() {
+        $('#infobox').empty();
+        subj = 'work';
+        resultChange();
+        getData(subjKey[subj]);
+        initizeWithState();
+    });
+
+    $('#employer').click(function() {
+        $('#infobox').empty();
+        subj = 'emp';
+        getData(subjKey[subj]);
+        initizeWithState();
+    });
+
+    $('#worker').click(function() {
+        $('#infobox').empty();
+        feature = 'WORKER';
+        layerTheWorks();
+    });
+
+    $('#avgsal').click(function() {
+        $('#infobox').empty();
+        feature = 'AVGSAL';
+        layerTheWorks();
+    });
 
 });
 
@@ -597,7 +325,7 @@ var updateCountyLayer = function() {
         "type": "fill",
         "source": "county-level",
         "minzoom": zoomThreshold,
-        "paint": theRule
+        "paint": theCountyRule
     });
 };
 
@@ -609,31 +337,11 @@ var updateStateCities = function() {
     return map.addLayer(stateMajorCities)
 };
 
-var layerTheWorks = function() {
-    map.removeLayer("state-level-result");
-    map.removeSource("state-level");
-    map.removeLayer("county-level-result");
-    map.removeSource("county-level");
-    map.removeLayer("national-major-cities");
-    map.removeLayer("state-major-cities");
-    showPaintRules();
-    showStatePaintRules();
-    updateStateSource();
-    updateStateLayer();
-    updateCountySource();
-    updateCountyLayer();
-    updateNationalCities();
-    updateStateCities();
-    toggleLegend();
-
-};
-
-
 var toggleLegend = function() {
 
     $('.legend-option').hide();
 
-    if (featureKey == "WORKER") {
+    if (feature == "WORKER") {
 
         if (subj == "emp" && result == "CERT") {
             stateLegend = '#state-cert-e';
@@ -655,16 +363,34 @@ var toggleLegend = function() {
             countyLegend = '#county-wd-w';
         }
 
-    } else { // (featureKey == "AVGSAL")
+    } else { // (feature == "AVGSAL")
         stateLegend = '#avg-sal';
         countyLegend = '#avg-sal';
     }
 
-    var currentZoom = map.getZoom();
     if (map.getZoom() > zoomThreshold) {
         $(countyLegend).show();
     } else {
         $(stateLegend).show();
     };
+
+};
+
+var layerTheWorks = function() {
+    map.removeLayer("state-level-result");
+    map.removeSource("state-level");
+    map.removeLayer("county-level-result");
+    map.removeSource("county-level");
+    map.removeLayer("national-major-cities");
+    map.removeLayer("state-major-cities");
+    showCountyPaintRules();
+    showStatePaintRules();
+    updateStateSource();
+    updateStateLayer();
+    updateCountySource();
+    updateCountyLayer();
+    updateNationalCities();
+    updateStateCities();
+    toggleLegend();
 
 };

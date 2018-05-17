@@ -57,7 +57,7 @@ var quarterKey = {
 */
 
 // define filtering variables: default values 
-var featureKey = 'WORKER',
+var feature = 'WORKER',
     quarter = '17Q2',
     result = 'CERT',
     subj = 'work';
