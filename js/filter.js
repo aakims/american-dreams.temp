@@ -138,40 +138,42 @@ var thisStateData, thisCountyData;
 
 
 var timeForStateData = function() {
-    $.ajax(urlStateStr).done(function(res) {
+    $.ajax(urlStateStr).then(function(res) {
         //console.log(res); 
         //thisData = res;
         return res;
-    }).done(function(data) {
+    }).then(function(data) {
         //console.log(data);
         datafirst = data;
         fedStateData = JSON.parse(data);
         giveStateData = JSON.parse(JSON.stringify(fedStateData));
         //console.log(fedStateData.features[1]);
         thisStateData = defineData(giveStateData);
-    });
-    console.log('new fetch! from: ', subj, "   ", result, urlStateStr);
+    }).then(function() {
+        console.log('new fetch! from: ', subj, "   ", result, urlStateStr);
 
+});
 };
 
 var timeForCountyData = function() {
-    $.ajax(urlCountyStr).done(function(res) {
+    $.ajax(urlCountyStr).then(function(res) {
         //console.log(res); 
         //thisData = res;
         return res;
-    }).done(function(data) {
+    }).then(function(data) {
         //console.log(data);
         datafirst = data;
         fedCountyData = JSON.parse(data);
         giveCountyData = JSON.parse(JSON.stringify(fedCountyData));
         //console.log(fedCountyData.features[1]);
         thisCountyData = defineData(giveCountyData);
-    }).done(function() {
+    }).then(function() {
 
         layerTheWorks();
+        console.log('county is done!')
     });
 
-    console.log('county is done!')
+    
 };
 
 initizeWithState();
