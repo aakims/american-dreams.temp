@@ -71,7 +71,7 @@ map.addControl(new mapboxgl.NavigationControl());
 
 function showStatePaintRules() {
 
-    var selKey = subjKey[subj] + "_" + quarter + "_" + result + "_" + featureKey;
+    var selKey = subj + "_" + quarter + "_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -86,15 +86,15 @@ function showStatePaintRules() {
 
     if (featureKey == "WORKER") {
 
-        if ((subj == "worksite") && (result == "CERT")) {
+        if ((subj == "work") && (result == "CERT")) {
             quantBreaksState = [2, 209, 741, 2314, 6537, 142255]; // max 65191
-        } else if ((subj == "worksite") && (result == "DEN")) {
+        } else if ((subj == "work") && (result == "DEN")) {
             quantBreaksState = [1, 5, 12, 30, 89, 2276]; // max 1137
-        } else if ((subj == "worksite") && (result == "WD")) {
+        } else if ((subj == "work") && (result == "WD")) {
             quantBreaksState = [1, 9, 26, 72, 183, 3709]; // NA 
-        } else if ((subj == "employer") && (result == "CERT")) {
+        } else if ((subj == "emp") && (result == "CERT")) {
             quantBreaksState = [2, 87, 246, 674, 4087, 151092];
-        } else if ((subj == "employer") && (result == "DEN")) {
+        } else if ((subj == "emp") && (result == "DEN")) {
             quantBreaksState = [1, 4, 9, 21, 68, 2629];
         } else { // (subj == "employer" && result == "WD")
             quantBreaksState = [1, 5, 12, 39, 135, 15149];
@@ -160,7 +160,7 @@ function showStatePaintRules() {
 
 function showPaintRules() {
 
-    var selKey = subjKey[subj] + "_" + quarter + "_" + result + "_" + featureKey;
+    var selKey = subj + "_" + quarter + "_" + result + "_" + featureKey;
     console.log(selKey);
 
     var findRule = function(colscheme) {
@@ -175,15 +175,15 @@ function showPaintRules() {
 
     if (featureKey == "WORKER") {
 
-        if ((subj == "worksite") && (result == "CERT")) {
+        if ((subj == "work") && (result == "CERT")) {
             quantBreaks = [0, 1, 3, 8, 47, 65191]; // max 65191
-        } else if ((subj == "worksite") && (result == "DEN")) {
+        } else if ((subj == "work") && (result == "DEN")) {
             quantBreaks = [0, 1, 2, 3, 8, 1137]; // max 1137
-        } else if ((subj == "worksite") && (result == "WD")) {
+        } else if ((subj == "work") && (result == "WD")) {
             quantBreaks = [0, 1, 2, 4, 14, 1128]; // NA 
-        } else if ((subj == "employer") && (result == "CERT")) {
+        } else if ((subj == "emp") && (result == "CERT")) {
             quantBreaks = [0, 1, 2, 6, 27, 90320];
-        } else if ((subj == "employer") && (result == "DEN")) {
+        } else if ((subj == "emp") && (result == "DEN")) {
             quantBreaks = [0, 1, 2, 3, 7, 2474];
         } else { // (subj == "employer" && result == "WD")
             quantBreaks = [0, 1, 2, 3, 11, 14893];
@@ -353,10 +353,10 @@ map.on('load', function() {
 
     $('#worksite').click(function() {
         $('#infobox').empty();
-        subj = 'worksite';
+        subj = 'work';
         resultChange();
         //subjectChange();
-        getData("worksite");
+        getData(subjKey[subj]);
         initizeWithState();
         map.on('zoom', function() {
             if (map.getZoom() > zoomThreshold) {
@@ -371,9 +371,9 @@ map.on('load', function() {
 
     $('#employer').click(function() {
         $('#infobox').empty();
-        subj = 'employer';
+        subj = 'emp';
         //resultChange(); 
-        getData("employer");
+        getData(subjKey[subj]);
         initizeWithState();
         map.on('zoom', function() {
             if (map.getZoom() > zoomThreshold) {
@@ -434,10 +434,10 @@ map.on('load', function() {
     map.on('click', 'state-level-result', function(e) {
 
         //var labelStr; 
-        var result_worker = subjKey[subj] + "_" + quarter + "_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_" + quarter + "_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_" + quarter + "_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_" + quarter + "_" + result + "_TOPJOB";
+        var result_worker = subj + "_" + quarter + "_" + result + "_WORKER";
+        var result_salary = subj + "_" + quarter + "_" + result + "_AVGSAL";
+        var majCity = subj + "_" + quarter + "_" + result + "_TOPCITY";
+        var popJob = subj + "_" + quarter + "_" + result + "_TOPJOB";
         //console.log(result_worker);
 
         // console.log(labelStr);
@@ -451,7 +451,7 @@ map.on('load', function() {
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
-            "</span></li><li> top " + subj +
+            "</span></li><li> top " + subjKey[subj] +
             " city: <br><span class = 'info-head'>  " +
             e.features[0].properties[majCity].replace("-", ", ") +
             "</span></li><li>most popular job: <br><span class = 'info-head'>  " +
@@ -467,10 +467,10 @@ map.on('load', function() {
 
     map.on('click', 'county-level-result', function(e) {
 
-        var result_worker = subjKey[subj] + "_" + quarter + "_" + result + "_WORKER";
-        var result_salary = subjKey[subj] + "_" + quarter + "_" + result + "_AVGSAL";
-        var majCity = subjKey[subj] + "_" + quarter + "_" + result + "_TOPCITY";
-        var popJob = subjKey[subj] + "_" + quarter + "_" + result + "_TOPJOB";
+        var result_worker = subj + "_" + quarter + "_" + result + "_WORKER";
+        var result_salary = subj + "_" + quarter + "_" + result + "_AVGSAL";
+        var majCity = subj + "_" + quarter + "_" + result + "_TOPCITY";
+        var popJob = subj + "_" + quarter + "_" + result + "_TOPJOB";
         console.log(result_worker);
 
         // console.log(labelStr);
@@ -488,7 +488,7 @@ map.on('load', function() {
             e.features[0].properties[result_worker] +
             "</span></li><li> average salary:  <span class = 'info-head'> $  " +
             e.features[0].properties[result_salary] +
-            "</span></li><li> top " + subj +
+            "</span></li><li> top " + subjKey[subj] +
             " city: <br><span class = 'info-head'>  " +
             e.features[0].properties[majCity].replace("-", ", ") +
             "</span></li><li>most popular job: <br><span class = 'info-head'>  " +
@@ -635,22 +635,22 @@ var toggleLegend = function() {
 
     if (featureKey == "WORKER") {
 
-        if (subj == "employer" && result == "CERT") {
+        if (subj == "emp" && result == "CERT") {
             stateLegend = '#state-cert-e';
             countyLegend = '#county-cert-e';
-        } else if (subj == "employer" && result == "DEN") {
+        } else if (subj == "emp" && result == "DEN") {
             stateLegend = '#state-den-e';
             countyLegend = '#county-den-e';
-        } else if (subj == "employer" && result == "WD") {
+        } else if (subj == "emp" && result == "WD") {
             stateLegend = '#state-wd-e';
             countyLegend = '#county-wd-e';
-        } else if (subj == "worksite" && result == "CERT") {
+        } else if (subj == "work" && result == "CERT") {
             stateLegend = '#state-cert-w';
             countyLegend = '#county-cert-w';
-        } else if (subj == "worksite" && result == "DEN") {
+        } else if (subj == "work" && result == "DEN") {
             stateLegend = '#state-den-w';
             countyLegend = '#county-den-w';
-        } else if (subj == "worksite" && result == "WD") {
+        } else if (subj == "work" && result == "WD") {
             stateLegend = '#state-wd-w';
             countyLegend = '#county-wd-w';
         }

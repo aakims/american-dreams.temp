@@ -1,15 +1,24 @@
+// global variables
+var thisData, thisCountyData, thisStateData;
+var selectKeys; // array variable to store columns that match filtering conditions 
+var stateCities, allCities;
+var fedData, datafirst;
+var fedStateData, fedCountyData;
+var giveStateData, giveCountyData;
+
 // bring in cities geojson 
 var allCities = _.chain(maincities.features).value();
 
-var resultKey = {
+// key word dicts
+var resultKey = { //column_prefix : display_language 
     'CERT': 'Certified',
     'DEN': 'Denied',
     'WD': 'Withdrawn'
 };
 
 var subjKey = {
-    'employer': 'emp',
-    'worksite': 'work'
+    'emp': 'employer',
+    'work': 'worksite'
 };
 
 // To be used for the next update: time slider 
@@ -47,18 +56,13 @@ var quarterKey = {
 };
 */
 
-var thisData;
-
 // filtering variables
 var featureKey = 'WORKER',
     quarter = '17Q2',
     result = 'CERT',
-    subj = 'worksite';
+    subj = 'work';
 
 var colList = ['APP', 'WORKER', 'AVGSAL', 'AVGPW', 'TOPNAIC5', 'TOPJOB', 'TOPCITY', 'PCTINSTATE'];
-
-// array variable to store columns that match filtering conditions 
-var selectKeys;
 
 
 var initizeWithState = function() { //when first page load 
@@ -87,7 +91,7 @@ var getData = function(newSubj) { // "employer" vs "worksite"
 
 };
 
-getData(subj);
+getData(subjKey[subj]);
 
 var allFields = function(fedData) {
     // console.log (_.unique(_.flatten(_.map(fedData.features, function(feature) {
@@ -129,10 +133,7 @@ var defineData = function(fedData) { // subject: employer vs worksite
     console.log(thisData[1]);
     return thisData;
 };
-var fedData, datafirst;
-var fedStateData, fedCountyData;
-var giveStateData, giveCountyData;
-var thisStateData, thisCountyData;
+
 
 //getData(subject);
 
@@ -152,7 +153,7 @@ var timeForStateData = function() {
     }).then(function() {
         console.log('new fetch! from: ', subj, "   ", result, urlStateStr);
 
-});
+    });
 };
 
 var timeForCountyData = function() {
@@ -173,9 +174,7 @@ var timeForCountyData = function() {
         console.log('county is done!')
     });
 
-    
+
 };
 
 initizeWithState();
-
-var stateCities, allCities;
